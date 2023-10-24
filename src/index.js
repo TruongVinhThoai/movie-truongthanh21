@@ -3,12 +3,25 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
+import { configureStore } from "@reduxjs/toolkit";
+import { Provider } from "react-redux";
+import userSlice from "./redux/userSlice";
+import spinnerSlice from "./redux/spinnerSlice";
+import bookingSlice from "./redux/bookingSlice";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
+export let store = configureStore({
+  // rootReducer
+  reducer: {
+    userSlice,
+    spinnerSlice,
+    bookingSlice,
+  },
+});
 root.render(
-  // <React.StrictMode>
-  <App />
-  // </React.StrictMode>
+  <Provider store={store}>
+    <App />
+  </Provider>
 );
 
 // If you want to start measuring performance in your app, pass a function

@@ -1,6 +1,20 @@
 import React from "react";
+import { useEffect, useState } from "react";
+import { getMovieByTheater } from "../../services/Api";
 
 export default function Footer() {
+  const [DS_Logo, setDS_Logo] = useState([]);
+  useEffect(() => {
+    getMovieByTheater()
+      .then((res) => {
+        console.log(res);
+        setDS_Logo(res.data.content);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
   return (
     <div>
       <div>
@@ -41,7 +55,16 @@ export default function Footer() {
                 <nav className="list-none mb-10">
                   <li>
                     <a className="text-gray-600 hover:text-gray-800">
-                      First Link
+                      {DS_Logo.map((rap, index) => {
+                        return (
+                          <img
+                            key={index}
+                            src={rap.logo}
+                            className="w-full"
+                            alt=""
+                          />
+                        );
+                      })}
                     </a>
                   </li>
                   <li>

@@ -4,14 +4,16 @@ import Login from "./pages/Login/Login";
 import DetailMovie from "./pages/DetailMovie/DetailMovie";
 import Home from "./pages/Home/Home";
 import HomeTemplate from "./templates/HomeTemplate/HomeTemplate";
-import News from "./pages/News/News";
-import Contact from "./pages/Contact/Contact";
-import Apps from "./pages/Apps/Apps";
 import Register from "./pages/Register/Register";
+import Checkout from "./pages/Checkout/Checkout";
+import Spinner from "./components/Spinner/Spinner";
+import PrivateRoute from "./templates/PrivateRoute/PrivateRoute";
+import Profile from "./pages/Profile/Profile";
 
 function App() {
   return (
     <div className="App">
+      <Spinner />
       <BrowserRouter>
         <Routes>
           <Route
@@ -19,30 +21,6 @@ function App() {
             element={
               <HomeTemplate>
                 <Home />
-              </HomeTemplate>
-            }
-          />
-          <Route
-            path="/news"
-            element={
-              <HomeTemplate>
-                <News />
-              </HomeTemplate>
-            }
-          />
-          <Route
-            path="/contact"
-            element={
-              <HomeTemplate>
-                <Contact />
-              </HomeTemplate>
-            }
-          />
-          <Route
-            path="/app"
-            element={
-              <HomeTemplate>
-                <Apps />
               </HomeTemplate>
             }
           />
@@ -56,6 +34,22 @@ function App() {
           />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route
+            path="/checkout/:id"
+            element={
+              <PrivateRoute>
+                <Checkout />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/profile/:id"
+            element={
+              <HomeTemplate>
+                <Profile />
+              </HomeTemplate>
+            }
+          ></Route>
         </Routes>
       </BrowserRouter>
     </div>
