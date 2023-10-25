@@ -20,7 +20,7 @@ const bookingSlice = createSlice({
       let DS_GheCapNhat = state.DS_GheDangDat;
       let index = DS_GheCapNhat.findIndex((gheDD) => gheDD === payload.maGhe);
       console.log("🚀 ~ file: bookingSlice.js:21 ~ index:", index);
-      if (index != -1) {
+      if (index !== -1) {
         // Neu tim thay ghe duoc chon trong mang co nghia la truoc do da co click vao r => xoa
         DS_GheCapNhat.splice(index, 1);
       } else {
