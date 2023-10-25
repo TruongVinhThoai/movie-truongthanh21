@@ -6,13 +6,13 @@ import { https } from "../../services/Config";
 import { setLogin } from "../../redux/userSlice";
 import { userLocalStorage } from "../../services/localStorage";
 
-const onFinishFailed = (errorInfo) => {
-  console.log("Failed:", errorInfo);
-};
-
 const FormLogin = () => {
   let dispatch = useDispatch();
   let navigate = useNavigate();
+
+  const onFinishFailed = (errorInfo) => {
+    console.log("Failed:", errorInfo);
+  };
 
   const onFinish = (values) => {
     https
@@ -31,15 +31,9 @@ const FormLogin = () => {
   };
   return (
     <Form
-      className="w-1/2"
+      className="w-full"
       layout="vertical"
-      name="basic"
-      labelCol={{
-        span: 8,
-      }}
-      wrapperCol={{
-        span: 20,
-      }}
+      name="login"
       // style={{
       //   maxWidth: 600,
       // }}
@@ -50,6 +44,7 @@ const FormLogin = () => {
       onFinishFailed={onFinishFailed}
       autoComplete="off"
     >
+      <h1 className="text-lg mb-4">Login</h1>
       <Form.Item
         label="Username"
         name="taiKhoan"
@@ -87,13 +82,11 @@ const FormLogin = () => {
         <Checkbox>Remember me</Checkbox>
       </Form.Item> */}
 
-      <Form.Item
-        wrapperCol={{
-          offset: 8,
-          span: 20,
-        }}
-      >
-        <Button type="primary" className="bg-orange-400" htmlType="submit">
+      <Form.Item>
+        <Button
+          className="bg-orange-400 hover:bg-orange-500 !border-white !text-white ml-auto"
+          htmlType="submit"
+        >
           Submit
         </Button>
       </Form.Item>

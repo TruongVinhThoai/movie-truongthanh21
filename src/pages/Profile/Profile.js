@@ -2,15 +2,15 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { userServ } from "../../services/Api";
 import { setInfoUser } from "../../redux/userSlice";
-import { Button, Form, Input } from "antd";
+import { Form, Input } from "antd";
 import { https } from "../../services/Config";
 import { useParams } from "react-router-dom";
 
 export default function Profile() {
   const dispatch = useDispatch();
   const { id } = useParams();
-  console.log("🚀 ~ file: Profile.js:12 ~ Profile ~ id:", id);
   const { infoUser } = useSelector((state) => state.userSlice);
+  console.log("🚀 ~ file: Profile.js:12 ~ Profile ~ id:", id, infoUser);
 
   useEffect(() => {
     userServ
@@ -23,7 +23,7 @@ export default function Profile() {
       .catch((err) => {
         console.log(err);
       });
-  }, []);
+  }, [dispatch]);
 
   const [user, setUser] = useState({ adminname: "", email: "" });
   console.log("🚀 ~ file: Profile.js:28 ~ Profile ~ user:", user);
@@ -36,16 +36,16 @@ export default function Profile() {
       [name]: value,
     });
   };
-  const handleUpdate = () => {
-    https
-      .put(`/QuanLyNguoiDung/CapNhatThongTinNguoiDung`)
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
+  // const handleUpdate = () => {
+  //   https
+  //     .put(`/QuanLyNguoiDung/CapNhatThongTinNguoiDung`)
+  //     .then((res) => {
+  //       console.log(res);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // };
   const [form] = Form.useForm();
 
   return (

@@ -155,22 +155,22 @@ export default function DetailMovie() {
           }}
           className="top-0 left-0 right-0 bottom-0 absolute bg-cover bg-no-repeat bg-center blur-md"
         ></div>
-        <div className="top-1/2 left-1/2 text-white w-full h-[320px] flex absolute max-w-[870px] items-center justify-center -translate-x-1/2 -translate-y-1/2">
-          <div className="w-1/4 h-full relative bg-cover bg-center bg-no-repeat">
-            <img src={detail.hinhAnh} alt="" />
+        <div className="top-1/2 left-1/2 text-white w-full h-[320px] flex absolute max-w-[1080px] items-center justify-center -translate-x-1/2 -translate-y-1/2">
+          <div className="w-2/4 relative bg-cover bg-center bg-no-repeat">
+            <img className="w-full h-auto" src={detail.hinhAnh} alt="Image defail movie" />
           </div>
-          <div>
+          <div className="px-3 md:text-lg text-sm">
             <p>{detail.ngayKhoiChieu}</p>
             <p>{detail.tenPhim}</p>
             <p>{detail.moTa}</p>
-            <button class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">
+            <button class="bg-transparent transition hover:bg-orange-500 font-semibold hover:text-white py-2 px-4 border border-orange-500 hover:border-transparent rounded">
               Book
             </button>
           </div>
           <div>
             {" "}
             <Progress
-              size={350}
+              size={200}
               format={(value) => (
                 <span className="text-red-500 font-medium animate-pulse block">
                   {value / 10} Diem
@@ -178,7 +178,6 @@ export default function DetailMovie() {
               )}
               strokeColor={"red"}
               strokeWidth={20}
-              className="animate-bounce"
               type="circle"
               percent={detail.danhGia * 10}
             />

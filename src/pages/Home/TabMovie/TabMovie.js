@@ -40,11 +40,11 @@ export default function TabMovie() {
   let renderDsPhim = (dsPhim) => {
     return dsPhim.map((phim) => {
       return (
-        <div id="cumrap" className="flex space-x-5 p-3 items-center">
+        <div id="cumrap" className="flex space-x-5 p-3 items-center w-max lg:w-auto">
           <img src={phim.hinhAnh} className="w-20 h-32 object-cover" alt="" />
           <div>
             <p>{phim.tenPhim}</p>
-            <div className="grid grid-cols-4 gap-3">
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
               {phim.lstLichChieuTheoPhim.slice(0, 7).map((lichchieu) => {
                 return (
                   <span className="bg-red-500 text-white rounded shadow px-1 py-2">
@@ -93,7 +93,7 @@ export default function TabMovie() {
   };
 
   return (
-    <div className="container shadow-3 rounded border-2 border-l-black">
+    <div className="container shadow-3 rounded border-2 border-l-black mx-auto">
       <Tabs
         style={{ height: 500 }}
         tabPosition="left"

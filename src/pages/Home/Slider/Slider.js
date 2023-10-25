@@ -1,4 +1,4 @@
-import { Carousel, ConfigProvider, message } from "antd";
+import { message } from "antd";
 import React, { useEffect, useState } from "react";
 import { getDataSlider } from "../../../services/Api";
 import "swiper/css";
@@ -69,6 +69,7 @@ export default function Slider() {
           <SwiperSlide key={index}>
             <div className=" sm:h-64 md:h-full lg:h-full xl:h-200">
               <img
+                alt="slider image"
                 src={item.hinhAnh}
                 key={index}
                 className=" object-cover w-full h-full"
