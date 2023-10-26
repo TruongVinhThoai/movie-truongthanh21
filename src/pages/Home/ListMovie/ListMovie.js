@@ -6,13 +6,13 @@ import "swiper/css/grid";
 import "swiper/css/pagination";
 import { A11y, Grid, Navigation, Pagination } from "swiper/modules";
 import { NavLink } from "react-router-dom";
+import { Element } from "react-scroll";
 
 export default function ListMovie() {
   const [movieArr, setMovieArr] = useState([]);
   useEffect(() => {
     getListMovie()
       .then((res) => {
-        console.log(res);
         setMovieArr(res.data.content);
       })
       .catch((err) => {
@@ -20,8 +20,12 @@ export default function ListMovie() {
       });
   }, []);
   return (
-    <section id="lichchieu" className="text-gray-600 body-font">
-      <div className="container px-5 py-24 mx-auto">
+    <Element
+      name="lichchieu"
+      id="lichchieu"
+      className="text-gray-600 body-font"
+    >
+      <div className="container px-5 lg:py-12 py-8 mx-auto">
         <div>
           <button className="mr-5" onClick={() => {}}>
             Sap chieu
@@ -49,9 +53,6 @@ export default function ListMovie() {
           spaceBetween={10}
           modules={[Grid, Navigation, Pagination, A11y]}
           navigation
-          onSlideChange={() => console.log("slide change")}
-          onSwiper={(swiper) => console.log(swiper)}
-          // className="grid md:col-span-1"
         >
           <div className="flex flex-wrap">
             <div className="flex flex-wrap">
@@ -76,7 +77,9 @@ export default function ListMovie() {
                         <h1 className="title-font text-lg font-medium text-gray-900 mb-3">
                           {item.tenPhim}
                         </h1>
-                        <p className="leading-relaxed mb-3 line-clamp-4">{item.moTa}</p>
+                        <p className="leading-relaxed mb-3 line-clamp-4">
+                          {item.moTa}
+                        </p>
                       </div>
                       <div className="flex items-center space-x-2">
                         <a className="text-indigo-500 inline-flex items-center">
@@ -127,9 +130,11 @@ export default function ListMovie() {
                     </div>
                     <div className="absolute h-full w-full bg-black/75 flex items-center justify-center scale-0 left-0 bottom-0 right-0 z-[1] opacity-0 group-hover:opacity-100 group-hover:scale-100 transition-all duration-500 rounded-lg border-solid border-2 border-orange-500">
                       <div className="absolute -translate-y-1/2 top-1/2 text-center transition-all w-[60%] md:w-[80%]">
-                        <button className="text-white py-6 uppercase text-lg md:text-xl w-full rounded bg-red-400">
-                          <NavLink to={`/movie/${item.maPhim}`}>Book Now</NavLink>
-                        </button>
+                        <NavLink to={`/movie/${item.maPhim}`}>
+                          <button className="text-white py-6 uppercase text-lg md:text-xl w-full rounded bg-red-400">
+                            Book Now
+                          </button>
+                        </NavLink>
                       </div>
                     </div>
                   </div>
@@ -139,7 +144,7 @@ export default function ListMovie() {
           </div>
         </Swiper>
       </div>
-    </section>
+    </Element>
 
     // <div className="container my-28 mx-auto">
     //   <Swiper

@@ -2,6 +2,7 @@ import axios from "axios";
 import { userLocalStorage } from "./localStorage";
 import { store } from "..";
 import { setLoadingOFF, setLoadingON } from "../redux/spinnerSlice";
+import { setMessage } from "../redux/messageSlice";
 
 export const TOKEN_CYBER =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZW5Mb3AiOiJCb290Y2FtcCBTw6FuZyAwOCIsIkhldEhhblN0cmluZyI6IjA3LzAzLzIwMjQiLCJIZXRIYW5UaW1lIjoiMTcwOTc2OTYwMDAwMCIsIm5iZiI6MTY4Njc2MjAwMCwiZXhwIjoxNzA5OTE3MjAwfQ.KMixzquIcyG1HcsZ_iekv3cHfqWMebGVfzp349mNosg";
@@ -15,13 +16,11 @@ export const BASE_URL = "https://movienew.cybersoft.edu.vn/api";
 export const GOURGID = "GP12";
 
 // axios instance
-
 export const https = axios.create({
   baseURL: BASE_URL,
-  // timeout: 1000,
+  timeout: 100,
   headers: {
     TokenCybersoft: TOKEN_CYBER,
-    Authorization: "Bearer " + userLocalStorage.get()?.accessToken,
   },
   // accessToken
 });
@@ -33,7 +32,13 @@ https.interceptors.request.use(
   function (config) {
     store.dispatch(setLoadingON());
     console.log("API di");
-    // Do something before request is sent
+
+    // Add Authorization header if access token exists in local storage
+    const accessToken = userLocalStorage.get()?.accessToken;
+    if (accessToken) {
+      config.headers["Authorization"] = `Bearer ${accessToken}`;
+    }
+
     return config;
   },
   function (error) {
@@ -47,13 +52,23 @@ https.interceptors.response.use(
   function (response) {
     store.dispatch(setLoadingOFF());
     console.log("API ve");
-    // Any status code that lie within the range of 2xx cause this function to trigger
-    // Do something with response data
     return response;
   },
   function (error) {
     store.dispatch(setLoadingOFF());
-    // Any status codes that falls outside the range of 2xx cause this function to trigger
+
+    if (error.response && error.response.status === 401) {
+      // Token expired or unauthorized, redirect to login page
+      store.dispatch(
+        setMessage({
+          message: "Token is expired! Please login again..",
+          type: "error",
+        })
+      );
+      window.location.href("/login");
+    }
+
+    // Any status codes that fall outside the range of 2xx cause this function to trigger
     // Do something with response error
     return Promise.reject(error);
   }

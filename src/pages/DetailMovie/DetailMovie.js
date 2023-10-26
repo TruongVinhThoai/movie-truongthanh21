@@ -1,38 +1,27 @@
 import React, { useEffect, useState } from "react";
 import { NavLink, useParams } from "react-router-dom";
-import {
-  getDetailMovie,
-  getInfoMovie,
-  getMovieByTheater,
-} from "../../services/Api";
+import { getDetailMovie, getInfoMovie } from "../../services/Api";
 import { Progress, Tabs } from "antd";
 import moment from "moment/moment";
 
-const onChange = (key) => {
-  console.log(key);
-};
+const onChange = (key) => {};
 
 export default function DetailMovie() {
   // useParams =>lay id tu url
-  let params = useParams();
-  console.log("🚀 ~ file: DetailMovie.js:7 ~ DetailMovie ~ params:", params);
+  const params = useParams();
   const [detail, setDetail] = useState({});
   useEffect(() => {
     //Goi api lay chi tiet phim dua tren id
     getDetailMovie(params.id)
       .then((res) => {
-        console.log(res);
         setDetail(res.data.content);
       })
       .catch((err) => {
-        console.log(err);
+        throw err;
       });
   }, []);
   const [DS_HeThongRapMovie, setDS_HeThongRapMovie] = useState([]);
-  console.log(
-    "🚀 ~ file: DetailMovie.js:49 ~ DetailMovie ~ DS_HeThongRapMovie:",
-    DS_HeThongRapMovie
-  );
+
   useEffect(() => {
     getInfoMovie(params.id)
       .then((res) => {
@@ -44,10 +33,10 @@ export default function DetailMovie() {
       });
   }, []);
 
-  let renderDsPhim = (dsPhim) => {
+  const renderDsPhim = (dsPhim) => {
     return dsPhim.map((phim) => {
       return (
-        <div id="cumrap" className="flex space-x-5 p-3 items-center">
+        <div key={phim.maLichChieu} className="flex space-x-5 p-3 items-center">
           {/* <img src={phim.hinhAnh} className="w-20 h-32 object-cover" alt="" /> */}
           <div>
             <p>{phim.tenRap}</p>
@@ -70,20 +59,27 @@ export default function DetailMovie() {
     });
   };
 
-  let handleHeThongRap = () => {
+  const handleHeThongRap = () => {
     return DS_HeThongRapMovie.map((heThongRap, index) => {
       return {
         key: index,
         label: <img className="w-16" src={heThongRap.logo} alt="" />,
         children: (
           <Tabs
+            key={index}
             style={{ height: 500 }}
             tabPosition="left"
             items={heThongRap.cumRapChieu.map((cumRap) => {
               return {
                 key: cumRap.tenCumRap,
                 label: (
-                  <div className="text-left w-96 whitespace-normal">
+                  <div
+                    key={
+                      cumRap.id ||
+                      Math.floor(Math.random() * 1000 + 1).toString()
+                    }
+                    className="text-left w-96 whitespace-normal"
+                  >
                     <img src={cumRap.hinhAnh} alt="" />
                     <p className="text-green-500 font-medium">
                       {cumRap.tenCumRap}
@@ -93,7 +89,11 @@ export default function DetailMovie() {
                 ),
                 children: (
                   <div style={{ height: 380, overflow: "scroll" }}>
-                    {renderDsPhim(cumRap.lichChieuPhim)}
+                    {cumRap?.lichChieuPhim?.length ? (
+                      renderDsPhim(cumRap.lichChieuPhim)
+                    ) : (
+                      <>Not found... Please choose another movie!</>
+                    )}
                   </div>
                 ),
               };
@@ -157,13 +157,17 @@ export default function DetailMovie() {
         ></div>
         <div className="top-1/2 left-1/2 text-white w-full h-[320px] flex absolute max-w-[1080px] items-center justify-center -translate-x-1/2 -translate-y-1/2">
           <div className="w-2/4 relative bg-cover bg-center bg-no-repeat">
-            <img className="w-full h-auto" src={detail.hinhAnh} alt="Image defail movie" />
+            <img
+              className="w-full h-auto"
+              src={detail.hinhAnh}
+              alt="Image defail movie"
+            />
           </div>
           <div className="px-3 md:text-lg text-sm">
             <p>{detail.ngayKhoiChieu}</p>
             <p>{detail.tenPhim}</p>
             <p>{detail.moTa}</p>
-            <button class="bg-transparent transition hover:bg-orange-500 font-semibold hover:text-white py-2 px-4 border border-orange-500 hover:border-transparent rounded">
+            <button className="bg-transparent transition hover:bg-orange-500 font-semibold hover:text-white py-2 px-4 border border-orange-500 hover:border-transparent rounded">
               Book
             </button>
           </div>
@@ -173,7 +177,7 @@ export default function DetailMovie() {
               size={200}
               format={(value) => (
                 <span className="text-red-500 font-medium animate-pulse block">
-                  {value / 10} Diem
+                  {value / 10}
                 </span>
               )}
               strokeColor={"red"}

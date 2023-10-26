@@ -1,7 +1,7 @@
 import React, { Fragment, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getDetailBooking, userServ } from "../../services/Api";
-import { NavLink, useParams } from "react-router-dom";
+import { NavLink, useNavigate, useParams } from "react-router-dom";
 import {
   setDetailBooking,
   setBooking,
@@ -19,47 +19,51 @@ import moment from "moment";
 
 const Checkout = () => {
   const dispatch = useDispatch();
-  let params = useParams();
-  let { user } = useSelector((state) => state.userSlice);
+  const params = useParams();
+  const { user } = useSelector((state) => state.userSlice);
+  const navigate = useNavigate();
 
-  let { detailBooking, DS_GheDangDat } = useSelector((state) => {
+  const { detailBooking, DS_GheDangDat } = useSelector((state) => {
     return state.bookingSlice;
   });
-  console.log(
-    "🚀 ~ file: Checkout.js:18 ~ let{detailBooking}=useSelector ~ detailBooking:",
-    detailBooking
-  );
 
   const { thongTinPhim, danhSachGhe } = detailBooking;
 
   useEffect(() => {
-    getDetailBooking
-      .getDetail(params.id)
-      .then((res) => {
-        console.log(res);
-        dispatch(setDetailBooking(res.data.content));
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
+    if (user?.accessToken) {
+      getDetailBooking
+        .getDetail(params.id)
+        .then((res) => {
+          dispatch(setDetailBooking(res.data.content));
+        })
+        .catch((err) => {
+          throw err;
+        });
+    }
+  }, [params.id, user?.accessToken]);
+
+  useEffect(() => {
+    if (!user?.accessToken) {
+      navigate("/login");
+    }
+  }, [user?.accessToken]);
 
   const renderSeats = () => {
     {
       /* Dung optional chaining "?" hoac viet 1 model */
     }
     return danhSachGhe.map((ghe, index) => {
-      let classGheVip = ghe.loaiGhe === "Vip" ? "gheVip" : "";
-      let classGheDaDat = ghe.daDat === true ? "gheDaDat" : "";
-      let classGheDangDat = "";
-      let classGheDaDuocDat = "";
+      const classGheVip = ghe.loaiGhe === "Vip" ? "gheVip" : "";
+      const classGheDaDat = ghe.daDat === true ? "gheDaDat" : "";
+      const classGheDangDat = "";
+      const classGheDaDuocDat = "";
 
-      if (user.taiKhoan === ghe.taiKhoanNguoiDat) {
+      if (user?.taiKhoan === ghe.taiKhoanNguoiDat) {
         classGheDaDuocDat = "gheDaDuocDat";
       }
 
       //Kiểm tra từng ghế render xem có trong mảng ghế đang đặt hay không
-      let indexGheDD = DS_GheDangDat.findIndex(
+      const indexGheDD = DS_GheDangDat.findIndex(
         (gheDD) => gheDD.maGhe === ghe.maGhe
       );
 
@@ -96,65 +100,65 @@ const Checkout = () => {
     <div className="container mx-auto min-h-screen mt-5">
       <div className="grid md:grid-cols-12">
         <div className="w-full overflow-auto">
-        <table className="w-full overflow-auto">
-          <thead className="bg-gray-50 p-5">
-            <tr>
-              <th>Ghế chưa đặt</th>
-              <th>Ghế đang đặt</th>
-              <th>Ghế vip</th>
-              <th>Ghế đã đặt</th>
-              <th>Ghế mình đặt</th>
-              <th>Ghế khách đang đặt</th>
-            </tr>
-          </thead>
-          <tbody className="bg-white divide-y divide-gray-200">
-            <tr className="text-center">
-              <td>
-                <button className="ghe text-center">
-                  <CheckOutlined
-                    style={{ marginBottom: 7.5, fontWeight: "bold" }}
-                  />
-                </button>
-              </td>
-              <td>
-                <button className="ghe gheDangDat text-center">
-                  <CheckOutlined
-                    style={{ marginBottom: 7.5, fontWeight: "bold" }}
-                  />
-                </button>
-              </td>
-              <td>
-                <button className="ghe gheVip text-center">
-                  <CheckOutlined
-                    style={{ marginBottom: 7.5, fontWeight: "bold" }}
-                  />
-                </button>
-              </td>
-              <td>
-                <button className="ghe gheDaDat text-center">
-                  <CheckOutlined
-                    style={{ marginBottom: 7.5, fontWeight: "bold" }}
-                  />
-                </button>
-              </td>
-              <td>
-                <button className="ghe gheDaDuocDat text-center">
-                  <CheckOutlined
-                    style={{ marginBottom: 7.5, fontWeight: "bold" }}
-                  />
-                </button>
-              </td>
-              <td>
-                <button className="ghe gheKhachDat text-center">
-                  <CheckOutlined
-                    style={{ marginBottom: 7.5, fontWeight: "bold" }}
-                  />
-                </button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+          <table className="w-full overflow-auto">
+            <thead className="bg-gray-50 p-5">
+              <tr>
+                <th>Ghế chưa đặt</th>
+                <th>Ghế đang đặt</th>
+                <th>Ghế vip</th>
+                <th>Ghế đã đặt</th>
+                <th>Ghế mình đặt</th>
+                <th>Ghế khách đang đặt</th>
+              </tr>
+            </thead>
+            <tbody className="bg-white divide-y divide-gray-200">
+              <tr className="text-center">
+                <td>
+                  <button className="ghe text-center">
+                    <CheckOutlined
+                      style={{ marginBottom: 7.5, fontWeight: "bold" }}
+                    />
+                  </button>
+                </td>
+                <td>
+                  <button className="ghe gheDangDat text-center">
+                    <CheckOutlined
+                      style={{ marginBottom: 7.5, fontWeight: "bold" }}
+                    />
+                  </button>
+                </td>
+                <td>
+                  <button className="ghe gheVip text-center">
+                    <CheckOutlined
+                      style={{ marginBottom: 7.5, fontWeight: "bold" }}
+                    />
+                  </button>
+                </td>
+                <td>
+                  <button className="ghe gheDaDat text-center">
+                    <CheckOutlined
+                      style={{ marginBottom: 7.5, fontWeight: "bold" }}
+                    />
+                  </button>
+                </td>
+                <td>
+                  <button className="ghe gheDaDuocDat text-center">
+                    <CheckOutlined
+                      style={{ marginBottom: 7.5, fontWeight: "bold" }}
+                    />
+                  </button>
+                </td>
+                <td>
+                  <button className="ghe gheKhachDat text-center">
+                    <CheckOutlined
+                      style={{ marginBottom: 7.5, fontWeight: "bold" }}
+                    />
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
         <div className="md:col-span-9">
           <div className="md:flex md:flex-col md:items-center md:justify-center mt-5 max-h-[500px] md:max-h-[unset] overflow-auto">
             <img
@@ -199,13 +203,13 @@ const Checkout = () => {
           <div className="my-5">
             <i>Email</i>
             <br />
-            {user.email}
+            {user?.email}
           </div>
           <hr />
           <div className="my-5">
             <i>Phone</i>
             <br />
-            {user.soDT}
+            {user?.soDT}
           </div>
           <hr />
           <div className="-mb-5 md:static fixed bottom-9 left-4 right-4">
@@ -214,25 +218,22 @@ const Checkout = () => {
                 const thongTinDatVe = new ThongTinDatVe();
                 thongTinDatVe.maLichChieu = params.id;
                 thongTinDatVe.danhSachVe = DS_GheDangDat;
-                console.log(thongTinDatVe);
                 getDetailBooking
                   .setBooking(thongTinDatVe)
                   .then((res) => {
                     message.success("Dat ve thanh cong");
-                    console.log(res);
                     dispatch(postBooking(res.data.content));
                   })
                   .catch((err) => {
-                    console.log(err);
+                    throw err;
                   });
                 getDetailBooking
                   .getDetail(params.id)
                   .then((res) => {
-                    console.log(res);
                     dispatch(setDetailBooking(res.data.content));
                   })
                   .catch((err) => {
-                    console.log(err);
+                    throw err;
                   });
                 dispatch(setTab("2"));
               }}
@@ -249,26 +250,24 @@ const Checkout = () => {
 
 const HistoryBooking = () => {
   const dispatch = useDispatch();
-  let params = useParams();
 
-  const { infoUser } = useSelector((state) => state.userSlice);
-  let { user } = useSelector((state) => state.userSlice);
-  console.log("test", infoUser);
+  const { infoUser, user } = useSelector((state) => state.userSlice);
 
   useEffect(() => {
-    userServ
-      .getInfoUser()
-      .then((res) => {
-        console.log(res);
-        dispatch(setInfoUser(res.data.content));
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
+    if (user?.accessToken) {
+      userServ
+        .getInfoUser()
+        .then((res) => {
+          dispatch(setInfoUser(res.data.content));
+        })
+        .catch((err) => {
+          throw err;
+        });
+    }
+  }, [user?.accessToken]);
 
-  let renderTicketItem = () => {
-    return infoUser.thongTinDatVe?.map((item, index) => {
+  const renderTicketItem = () => {
+    return infoUser?.thongTinDatVe?.map((item, index) => {
       const seats = _.first(item.danhSachGhe);
       return (
         <div className="p-2 lg:w-1/3 md:w-1/2 w-full" key={index}>
@@ -330,10 +329,11 @@ export default function Demo() {
   // const onChange = (key) => {
   //   console.log(key);
   // };
-  let dispatch = useDispatch();
-  let { tabActive } = useSelector((state) => {
+  const dispatch = useDispatch();
+  const { tabActive } = useSelector((state) => {
     return state.bookingSlice;
   });
+
   const items = [
     {
       key: "1",
@@ -350,10 +350,6 @@ export default function Demo() {
   const { user } = useSelector((state) => {
     return state.userSlice;
   });
-  console.log(
-    "🚀 ~ file: Checkout.js:357 ~ const{user}=useSelector ~ user:",
-    user
-  );
 
   const operation = (
     <Fragment>
@@ -371,11 +367,11 @@ export default function Demo() {
               }}
               className="text-2xl ml-5 rounded-full bg-red-200"
             >
-              <NavLink to={`/profile/${user.taiKhoan}`}>
-                {user.taiKhoan.substr(0, 1)}
+              <NavLink to={`/profile/${user?.taiKhoan}`}>
+                {user?.taiKhoan.substr(0, 1)}
               </NavLink>
             </div>
-            {user.taiKhoan}
+            {user?.taiKhoan}
           </button>
           {/* <button
             onClick={() => {
@@ -394,7 +390,6 @@ export default function Demo() {
       )}
     </Fragment>
   );
-
   return (
     <div className="p-5">
       <Tabs

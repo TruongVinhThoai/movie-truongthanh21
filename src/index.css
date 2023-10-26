@@ -40,9 +40,15 @@
 .ant-tabs-content-holder .ant-tabs-nav {
   width: max-content;
 }
-.ant-tabs-content-holder .ant-tabs-tabpane  {
+.ant-tabs-content-holder .ant-tabs-tabpane {
   padding-left: 0 !important;
 }
 .ant-popover {
   z-index: 9999;
+}
+.ant-message {
+  z-index: 99999 !important;
+}
+.ant-drawer {
+  z-index: 9999 !important;
 }
