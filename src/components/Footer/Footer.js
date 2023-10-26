@@ -54,13 +54,13 @@ export default function Footer() {
                 </h2>
                 <nav className="list-none mb-10">
                   <li>
-                    <a className="text-gray-600 hover:text-gray-800 grid grid-cols-3 md:grid-cols-4">
+                    <a className="text-gray-600 hover:text-gray-800">
                       {DS_Logo.map((rap, index) => {
                         return (
                           <img
                             key={index}
                             src={rap.logo}
-                            className="w-full p-2 -mx-2"
+                            className="w-full"
                             alt=""
                           />
                         );

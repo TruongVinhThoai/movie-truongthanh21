@@ -13,36 +13,3 @@
   border-radius: 100%;
   background: orange !important;
 }
-.swiper-slide {
-  height: unset !important;
-}
-.swiper-button-prev,
-.swiper-button-next {
-  color: #aba4a4 !important;
-  cursor: pointer;
-}
-.swiper-button-prev:hover,
-.swiper-button-next:hover {
-  opacity: 0.75;
-}
-.swiper-pagination-bullet {
-  background: white !important;
-  opacity: 0.85;
-  width: 16px !important;
-  height: 16px !important;
-}
-.swiper-pagination-bullet-active {
-  background: white !important;
-}
-.ant-tabs-content-holder {
-  overflow: auto;
-}
-.ant-tabs-content-holder .ant-tabs-nav {
-  width: max-content;
-}
-.ant-tabs-content-holder .ant-tabs-tabpane  {
-  padding-left: 0 !important;
-}
-.ant-popover {
-  z-index: 9999;
-}

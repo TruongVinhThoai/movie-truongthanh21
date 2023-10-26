@@ -1,10 +1,12 @@
 import React from "react";
 import Form from "./Form";
+import Banner from "./Banner";
 
 export default function Login() {
   return (
-    <div className="h-screen flex items-center justify-center">
-      <div className="w-[400px] bg-white rounded-xl p-4 lg:p-10 shadow-lg">
+    <div className="">
+      <div className="container flex bg-white rounded-xl p-10">
+        <Banner />
         <Form />
       </div>
     </div>

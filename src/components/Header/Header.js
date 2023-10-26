@@ -2,21 +2,64 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 import { userLocalStorage } from "../../services/localStorage";
-import AccountPopover from "./AccountPopover";
-import Menu from "./Menu";
 
 export default function Header() {
-  const { user } = useSelector((state) => state.userSlice);
-
-  const handleLogOut = () => {
+  let { user } = useSelector((state) => {
+    return state.userSlice;
+  });
+  let handleLogOut = () => {
     userLocalStorage.remove();
     window.location.reload();
     // window.location.href = "/";
   };
-  const handleLogIn = () => (window.location.href = "/login");
+  let handleLogIn = () => (window.location.href = "/login");
+  let renderUserNav = () => {
+    // let classBtn = "border-2 border-black rounded-xl px-7 py-3";
+    if (user) {
+      return (
+        <>
+          <NavLink to={`/profile/${user.taiKhoan}`}>
+            <button>
+              <span>{user.hoTen}</span>
+            </button>
+          </NavLink>
+          {/* <button onClick={handleLogOut} className={classBtn}>
+            Dang Xuat
+          </button> */}
+          <button
+            onClick={handleLogOut}
+            className="self-center px-8 py-3 font-semibold rounded dark:bg-violet-400 dark:text-gray-900"
+          >
+            Sign up
+          </button>
+        </>
+      );
+      //Da dang nhap
+    } else {
+      return (
+        <>
+          {/* <button onClick={handleLogIn} className={classBtn}>
+            Dang Nhap
+          </button>
+          <button className={classBtn}>Dang Ky</button> */}
+          <button
+            onClick={handleLogIn}
+            className="self-center px-8 py-3 rounded"
+          >
+            Sign in
+          </button>
 
+          <NavLink to={"/register"}>
+            <button className="self-center px-8 py-3 font-semibold rounded dark:bg-violet-400 dark:text-gray-900">
+              Dang ky
+            </button>
+          </NavLink>
+        </>
+      );
+    }
+  };
   return (
-    <header className="p-4 dark:bg-gray-800 dark:text-gray-100 sticky top-0 z-[9999]">
+    <header className="p-4 dark:bg-gray-800 dark:text-gray-100">
       <div className="container flex justify-between h-16 mx-auto">
         <NavLink to={"/"} className="flex items-center p-2">
           <img
@@ -33,9 +76,54 @@ export default function Header() {
             <path d="M22.094 19.451h-0.758c-0.188 0-0.363 0.049-0.515 0.135l0.006-0.004-4.574 2.512-5.282-3.049v-6.082l5.282-3.051 4.576 2.504c0.146 0.082 0.323 0.131 0.508 0.131h0.758c0.293 0 0.529-0.239 0.529-0.531v-0.716c0-0.2-0.11-0.373-0.271-0.463l-0.004-0.002-5.078-2.777c-0.293-0.164-0.645-0.26-1.015-0.26-0.39 0-0.756 0.106-1.070 0.289l0.010-0.006-5.281 3.049c-0.636 0.375-1.056 1.055-1.059 1.834v6.082c0 0.779 0.422 1.461 1.049 1.828l0.009 0.006 5.281 3.049c0.305 0.178 0.67 0.284 1.061 0.284 0.373 0 0.723-0.098 1.027-0.265l-0.012 0.006 5.080-2.787c0.166-0.091 0.276-0.265 0.276-0.465v-0.716c0-0.293-0.238-0.529-0.529-0.529z" />
           </svg> */}
         </NavLink>
-        <Menu />
+        <ul className="items-stretch hidden space-x-3 lg:flex">
+          <li className="flex">
+            <a
+              href="#lichchieu"
+              className="flex items-center px-4 -mb-1 border-b-2 hover:text-violet-400 dark:border-transparent active:text-violet-400 focus:border-b-2 focus:text-violet-400 focus:border-violet-400"
+            >
+              Lịch Chiếu
+            </a>
+          </li>
+          <li className="flex">
+            <a
+              href="#cumrap"
+              className="flex items-center px-4 -mb-1 border-b-2 dark:border-transparent hover:text-violet-400 active:text-violet-400 focus:border-b-2 focus:text-violet-400 focus:border-violet-400"
+            >
+              Cụm Rạp
+            </a>
+          </li>
+          <li className="flex active:dark:text-violet-400 active:dark:border-violet-400">
+            <a
+              href="#tintuc"
+              className="flex items-center px-4 -mb-1 border-b-2 dark:border-transparent hover:text-violet-400 active:text-violet-400 focus:border-b-2 focus:text-violet-400 focus:border-violet-400"
+            >
+              Tin Tức
+            </a>
+          </li>
+          <li className="flex">
+            <a
+              href="#lienhe"
+              className="flex items-center px-4 -mb-1 border-b-2 dark:border-transparent hover:text-violet-400 active:text-violet-400 focus:border-b-2 focus:text-violet-400 focus:border-violet-400"
+            >
+              Liên Hệ
+            </a>
+          </li>
+          <li className="flex">
+            <a
+              href="#ungdung"
+              className="flex items-center px-4 -mb-1 border-b-2 dark:border-transparent hover:text-violet-400 active:text-violet-400 focus:border-b-2 focus:text-violet-400 focus:border-violet-400"
+            >
+              Ứng Dụng
+            </a>
+          </li>
+        </ul>
         <div className="items-center flex-shrink-0 hidden lg:flex">
-          <AccountPopover handleLogOut={handleLogOut} user={user} handleLogIn={handleLogIn} />
+          {/* <button className="self-center px-8 py-3 rounded">Sign in</button>
+          <button className="self-center px-8 py-3 font-semibold rounded dark:bg-violet-400 dark:text-gray-900">
+            Sign up
+          </button> */}
+          {renderUserNav()}
         </div>
         <button className="p-4 lg:hidden">
           <svg

@@ -44,6 +44,8 @@ const Checkout = () => {
       });
   }, []);
 
+  console.log("first", DS_GheDangDat);
+
   const renderSeats = () => {
     {
       /* Dung optional chaining "?" hoac viet 1 model */
@@ -94,77 +96,79 @@ const Checkout = () => {
 
   return (
     <div className="container mx-auto min-h-screen mt-5">
-      <div className="grid md:grid-cols-12">
-        <div className="w-full overflow-auto">
-        <table className="w-full overflow-auto">
-          <thead className="bg-gray-50 p-5">
-            <tr>
-              <th>Ghế chưa đặt</th>
-              <th>Ghế đang đặt</th>
-              <th>Ghế vip</th>
-              <th>Ghế đã đặt</th>
-              <th>Ghế mình đặt</th>
-              <th>Ghế khách đang đặt</th>
-            </tr>
-          </thead>
-          <tbody className="bg-white divide-y divide-gray-200">
-            <tr className="text-center">
-              <td>
-                <button className="ghe text-center">
-                  <CheckOutlined
-                    style={{ marginBottom: 7.5, fontWeight: "bold" }}
-                  />
-                </button>
-              </td>
-              <td>
-                <button className="ghe gheDangDat text-center">
-                  <CheckOutlined
-                    style={{ marginBottom: 7.5, fontWeight: "bold" }}
-                  />
-                </button>
-              </td>
-              <td>
-                <button className="ghe gheVip text-center">
-                  <CheckOutlined
-                    style={{ marginBottom: 7.5, fontWeight: "bold" }}
-                  />
-                </button>
-              </td>
-              <td>
-                <button className="ghe gheDaDat text-center">
-                  <CheckOutlined
-                    style={{ marginBottom: 7.5, fontWeight: "bold" }}
-                  />
-                </button>
-              </td>
-              <td>
-                <button className="ghe gheDaDuocDat text-center">
-                  <CheckOutlined
-                    style={{ marginBottom: 7.5, fontWeight: "bold" }}
-                  />
-                </button>
-              </td>
-              <td>
-                <button className="ghe gheKhachDat text-center">
-                  <CheckOutlined
-                    style={{ marginBottom: 7.5, fontWeight: "bold" }}
-                  />
-                </button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-        <div className="md:col-span-9">
-          <div className="md:flex md:flex-col md:items-center md:justify-center mt-5 max-h-[500px] md:max-h-[unset] overflow-auto">
-            <img
-              src="https://movie-booking-project.vercel.app/img/bookticket/screen.png"
-              alt=""
-            />
+      <div className="grid grid-cols-12">
+        <div className="col-span-9">
+          <div className="flex flex-col items-center justify-center mt-5">
+            <div>
+              <img
+                src="https://movie-booking-project.vercel.app/img/bookticket/screen.png"
+                alt=""
+              />
+            </div>
             <div className="">{renderSeats()}</div>
           </div>
+          <div className="mt-5 flex justify-center">
+            <table className="table-auto w-full">
+              <thead className="bg-gray-50 p-5">
+                <tr>
+                  <th>Ghế chưa đặt</th>
+                  <th>Ghế đang đặt</th>
+                  <th>Ghế vip</th>
+                  <th>Ghế đã đặt</th>
+                  <th>Ghế mình đặt</th>
+                  <th>Ghế khách đang đặt</th>
+                </tr>
+              </thead>
+              <tbody className="bg-white divide-y divide-gray-200">
+                <tr className="text-center">
+                  <td>
+                    <button className="ghe text-center">
+                      <CheckOutlined
+                        style={{ marginBottom: 7.5, fontWeight: "bold" }}
+                      />
+                    </button>
+                  </td>
+                  <td>
+                    <button className="ghe gheDangDat text-center">
+                      <CheckOutlined
+                        style={{ marginBottom: 7.5, fontWeight: "bold" }}
+                      />
+                    </button>
+                  </td>
+                  <td>
+                    <button className="ghe gheVip text-center">
+                      <CheckOutlined
+                        style={{ marginBottom: 7.5, fontWeight: "bold" }}
+                      />
+                    </button>
+                  </td>
+                  <td>
+                    <button className="ghe gheDaDat text-center">
+                      <CheckOutlined
+                        style={{ marginBottom: 7.5, fontWeight: "bold" }}
+                      />
+                    </button>
+                  </td>
+                  <td>
+                    <button className="ghe gheDaDuocDat text-center">
+                      <CheckOutlined
+                        style={{ marginBottom: 7.5, fontWeight: "bold" }}
+                      />
+                    </button>
+                  </td>
+                  <td>
+                    <button className="ghe gheKhachDat text-center">
+                      <CheckOutlined
+                        style={{ marginBottom: 7.5, fontWeight: "bold" }}
+                      />
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
-        <div className="md:col-span-3 md:pb-0 pb-16">
+        <div className="col-span-3">
           <h3 className="text-green-400 text-center text-4xl">
             {DS_GheDangDat.reduce((tongTien, ghe, index) => {
               return (tongTien += ghe.giaVe);
@@ -208,7 +212,7 @@ const Checkout = () => {
             {user.soDT}
           </div>
           <hr />
-          <div className="-mb-5 md:static fixed bottom-9 left-4 right-4">
+          <div className="-mb-5 flex flex-col justify-end items-center h-full">
             <div
               onClick={() => {
                 const thongTinDatVe = new ThongTinDatVe();

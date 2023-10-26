@@ -54,32 +54,29 @@ export default function ListMovie() {
           // className="grid md:col-span-1"
         >
           <div className="flex flex-wrap">
-            <div className="flex flex-wrap">
-              {movieArr.map((item, index) => (
+            {movieArr.map((item, index) => {
+              return (
                 <SwiperSlide
                   key={index}
-                  className="relative overflow-hidden group h-auto w-full md:w-1/2 lg:w-1/3 xl:w-1/4 p-2"
+                  className="relative overflow-hidden group"
                 >
-                  <div className="h-full border-2 flex flex-col border-gray-200 border-opacity-60 rounded-lg overflow-hidden">
-                    <div className="h-0 relative pb-[100%]">
-                      <img
-                        className="absolute top-0 left-0 w-full h-full object-cover"
-                        src={item.hinhAnh}
-                        alt="blog"
-                      />
-                    </div>
-                    <div className="p-6 relative flex-1 flex flex-col justify-between">
-                      <div className="flex flex-col">
-                        <h2 className="tracking-widest text-xs title-font font-medium text-gray-400 mb-1">
-                          {item.maPhim}
-                        </h2>
-                        <h1 className="title-font text-lg font-medium text-gray-900 mb-3">
-                          {item.tenPhim}
-                        </h1>
-                        <p className="leading-relaxed mb-3 line-clamp-4">{item.moTa}</p>
-                      </div>
-                      <div className="flex items-center space-x-2">
-                        <a className="text-indigo-500 inline-flex items-center">
+                  {/* <div className="p-4"> */}
+                  <div className="h-full border-2 border-gray-200 border-opacity-60 rounded-lg overflow-hidden">
+                    <img
+                      className="lg:h-48 md:h-36 w-full object-cover object-center"
+                      src={item.hinhAnh}
+                      alt="blog"
+                    />
+                    <div className="p-6">
+                      <h2 className="tracking-widest text-xs title-font font-medium text-gray-400 mb-1">
+                        {item.maPhim}
+                      </h2>
+                      <h1 className="title-font text-lg font-medium text-gray-900 mb-3">
+                        {item.tenPhim}
+                      </h1>
+                      <p className="leading-relaxed mb-3">{item.moTa}</p>
+                      <div className="flex items-center flex-wrap ">
+                        <a className="text-indigo-500 inline-flex items-center md:mb-2 lg:mb-0">
                           Learn More
                           <svg
                             className="w-4 h-4 ml-2"
@@ -94,7 +91,7 @@ export default function ListMovie() {
                             <path d="M12 5l7 7-7 7" />
                           </svg>
                         </a>
-                        <span className="text-gray-400 inline-flex items-center leading-none text-sm pr-3 py-1 border-r-2 border-gray-200">
+                        <span className="text-gray-400 mr-3 inline-flex items-center lg:ml-auto md:ml-0 ml-auto leading-none text-sm pr-3 py-1 border-r-2 border-gray-200">
                           <svg
                             className="w-4 h-4 mr-1"
                             stroke="currentColor"
@@ -125,17 +122,26 @@ export default function ListMovie() {
                         </span>
                       </div>
                     </div>
-                    <div className="absolute h-full w-full bg-black/75 flex items-center justify-center scale-0 left-0 bottom-0 right-0 z-[1] opacity-0 group-hover:opacity-100 group-hover:scale-100 transition-all duration-500 rounded-lg border-solid border-2 border-orange-500">
-                      <div className="absolute -translate-y-1/2 top-1/2 text-center transition-all w-[60%] md:w-[80%]">
-                        <button className="text-white py-6 uppercase text-lg md:text-xl w-full rounded bg-red-400">
-                          <NavLink to={`/movie/${item.maPhim}`}>Book Now</NavLink>
+                    <div
+                      className="absolute h-full w-full bg-black/75 flex items-center justify-center scale-0 left-0 -bottom-[0px] right-0 z-[1] 
+                    opacity-0 group-hover:opacity-100 group-hover:scale-100 transition-all duration-500 rounded-lg border-solid border-2 border-orange-500"
+                    >
+                      <div className=" relative -translate-y-1/2 top-1/2 text-center text-white w-32 h-32 transition-all">
+                        <button className="px-20 py-5 rounded bg-red-400">
+                          <NavLink
+                            to={`/movie/${item.maPhim}`}
+                            className="text-white"
+                          >
+                            Mua ve
+                          </NavLink>
                         </button>
                       </div>
                     </div>
                   </div>
+                  {/* </div> */}
                 </SwiperSlide>
-              ))}
-            </div>
+              );
+            })}
           </div>
         </Swiper>
       </div>
