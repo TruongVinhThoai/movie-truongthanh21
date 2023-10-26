@@ -1,50 +1,74 @@
-import React from "react";
+import React, { memo } from "react";
+import { useNavigate } from "react-router-dom";
+import { Link as ScrollLink } from "react-scroll";
 
-const Menu = () => {
+const SECTION_IDS = [
+  {
+    name: "Lịch Chiếu",
+    id: "lichchieu",
+  },
+  {
+    name: "Cụm Rạp",
+    id: "cumrap",
+  },
+  {
+    name: "Tin Tức",
+    id: "tintuc",
+  },
+  {
+    name: "Liên Hệ",
+    id: "lienhe",
+  },
+  {
+    name: "Ứng Dụng",
+    id: "ungdung",
+  },
+];
+const MenuItem = ({ to, label, onClick, onClose }) => {
+  const handleClick = () => {
+    onClose && onClose();
+    onClick();
+  };
+
   return (
-    <ul className="items-stretch hidden space-x-3 lg:flex">
-      <li className="flex">
-        <a
-          href="#lichchieu"
-          className="flex items-center px-4 -mb-1 border-b-2 hover:text-violet-400 dark:border-transparent active:text-violet-400 focus:border-b-2 focus:text-violet-400 focus:border-violet-400"
-        >
-          Lịch Chiếu
-        </a>
-      </li>
-      <li className="flex">
-        <a
-          href="#cumrap"
-          className="flex items-center px-4 -mb-1 border-b-2 dark:border-transparent hover:text-violet-400 active:text-violet-400 focus:border-b-2 focus:text-violet-400 focus:border-violet-400"
-        >
-          Cụm Rạp
-        </a>
-      </li>
-      <li className="flex active:dark:text-violet-400 active:dark:border-violet-400">
-        <a
-          href="#tintuc"
-          className="flex items-center px-4 -mb-1 border-b-2 dark:border-transparent hover:text-violet-400 active:text-violet-400 focus:border-b-2 focus:text-violet-400 focus:border-violet-400"
-        >
-          Tin Tức
-        </a>
-      </li>
-      <li className="flex">
-        <a
-          href="#lienhe"
-          className="flex items-center px-4 -mb-1 border-b-2 dark:border-transparent hover:text-violet-400 active:text-violet-400 focus:border-b-2 focus:text-violet-400 focus:border-violet-400"
-        >
-          Liên Hệ
-        </a>
-      </li>
-      <li className="flex">
-        <a
-          href="#ungdung"
-          className="flex items-center px-4 -mb-1 border-b-2 dark:border-transparent hover:text-violet-400 active:text-violet-400 focus:border-b-2 focus:text-violet-400 focus:border-violet-400"
-        >
-          Ứng Dụng
-        </a>
-      </li>
+    <li className="flex lg:justify-start justify-center">
+      <ScrollLink
+        to={to}
+        spy={true}
+        smooth={true}
+        offset={-110}
+        duration={300}
+        className="flex items-center text-white cursor-pointer px-4 -mb-1 border-b-2 hover:text-violet-400 dark:border-transparent active:text-violet-400 focus:border-b-2 focus:text-violet-400 focus:border-violet-400"
+        activeClass="text-violet-400"
+        onClick={handleClick}
+      >
+        {label}
+      </ScrollLink>
+    </li>
+  );
+};
+
+const Menu = ({ onClose }) => {
+  const navigate = useNavigate();
+
+  const onClick = (section) => {
+    navigate("/", { state: { scrollTo: section } });
+    onClose && onClose();
+  };
+
+  return (
+    <ul className="items-stretch lg:items-center lg:flex-row flex-col space-y-4 lg:space-y-0 lg:space-x-3 flex lg:top-0 lg:left-0 lg:-translate-y-0 lg:-translate-x-0 lg:relative absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+      {SECTION_IDS.map((section) => (
+        <MenuItem
+          key={section.id}
+          to={section.id}
+          label={section.name}
+          onClose={onClose}
+          onClick={() => onClick(section.id)}
+        />
+      ))}
     </ul>
   );
 };
 
-export default Menu;
+export default memo(Menu);

@@ -1,182 +1,123 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { userServ } from "../../services/Api";
-import { setInfoUser } from "../../redux/userSlice";
-import { Form, Input } from "antd";
-import { https } from "../../services/Config";
-import { useParams } from "react-router-dom";
+import { updateProfile } from "../../redux/userSlice";
+import { Button, Form, Input } from "antd";
+import { validatePhoneNumber } from "../utils/lib";
+import { useNavigate } from "react-router-dom";
+import {
+  CodeOutlined,
+  FileExclamationOutlined,
+  PhoneOutlined,
+  UnlockOutlined,
+  UserAddOutlined,
+  UserOutlined,
+} from "@ant-design/icons";
 
 export default function Profile() {
   const dispatch = useDispatch();
-  const { id } = useParams();
-  const { infoUser } = useSelector((state) => state.userSlice);
-  console.log("🚀 ~ file: Profile.js:12 ~ Profile ~ id:", id, infoUser);
+  const navigate = useNavigate();
+  const [form] = Form.useForm();
+  const { user, loading } = useSelector((state) => state.userSlice);
+  const [isFormDirty, setIsFormDirty] = useState(false);
+
+  const handleSubmitForm = (values) => {
+    if (user?.accessToken) {
+      const profileData = {
+        taiKhoan: values.userName || user?.taiKhoan,
+        email: values.email || user?.email,
+        soDt: values.phone || user?.soDT,
+        maNhom: values.groupCode || user?.maNhom,
+        hoTen: values.name || user?.hoTen,
+        maLoaiNguoiDung: user?.maLoaiNguoiDung,
+        matKhau: values.password,
+      };
+      if (profileData) {
+        dispatch(updateProfile({ profileData, user }));
+      }
+    }
+  };
 
   useEffect(() => {
-    userServ
-      .getInfoUser()
-      .then((res) => {
-        console.log(res);
-        dispatch(setInfoUser(res.data.content));
-        setUser(res.data.content);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, [dispatch]);
+    if (!user?.accessToken) {
+      navigate("/");
+    }
+  }, [user?.accessToken]);
 
-  const [user, setUser] = useState({ adminname: "", email: "" });
-  console.log("🚀 ~ file: Profile.js:28 ~ Profile ~ user:", user);
-
-  const handleInput = (e) => {
-    const name = e.target.name;
-    const value = e.target.value;
-    setUser({
-      ...user,
-      [name]: value,
-    });
+  const handleValuesChange = () => {
+    if (!isFormDirty) {
+      setIsFormDirty(true);
+    }
   };
-  // const handleUpdate = () => {
-  //   https
-  //     .put(`/QuanLyNguoiDung/CapNhatThongTinNguoiDung`)
-  //     .then((res) => {
-  //       console.log(res);
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // };
-  const [form] = Form.useForm();
 
   return (
-    <div className="container flex justify-around items-center w-full mx-auto">
-      <div className="w-1/2">
-        <div class="w-72">
-          <div class="relative h-10 w-full min-w-[200px]">
-            <input
-              class="peer h-full w-full rounded-[7px] border border-blue-gray-200 border-t-transparent bg-transparent px-3 py-2.5 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 focus:border-2 focus:border-pink-500 focus:border-t-transparent focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
-              placeholder=" "
-            />
-            <label class="before:content[' '] after:content[' '] pointer-events-none absolute left-0 -top-1.5 flex h-full w-full select-none text-[11px] font-normal leading-tight text-blue-gray-400 transition-all before:pointer-events-none before:mt-[6.5px] before:mr-1 before:box-border before:block before:h-1.5 before:w-2.5 before:rounded-tl-md before:border-t before:border-l before:border-blue-gray-200 before:transition-all after:pointer-events-none after:mt-[6.5px] after:ml-1 after:box-border after:block after:h-1.5 after:w-2.5 after:flex-grow after:rounded-tr-md after:border-t after:border-r after:border-blue-gray-200 after:transition-all peer-placeholder-shown:text-sm peer-placeholder-shown:leading-[3.75] peer-placeholder-shown:text-blue-gray-500 peer-placeholder-shown:before:border-transparent peer-placeholder-shown:after:border-transparent peer-focus:text-[11px] peer-focus:leading-tight peer-focus:text-pink-500 peer-focus:before:border-t-2 peer-focus:before:border-l-2 peer-focus:before:border-pink-500 peer-focus:after:border-t-2 peer-focus:after:border-r-2 peer-focus:after:border-pink-500 peer-disabled:text-transparent peer-disabled:before:border-transparent peer-disabled:after:border-transparent peer-disabled:peer-placeholder-shown:text-blue-gray-500">
-              Required
-            </label>
-          </div>
-        </div>
-        <Form form={form} layout="vertical">
-          <Form.Item label="Tài khoản">
-            {/* <Input>sdfsd</Input> */}
-            <Input
-              name="adminname"
-              placeholder="input placeholder"
-              value={user.taiKhoan}
-              onChange={handleInput}
-            />
+    <div className="h-screen flex items-center justify-center">
+      <div className="w-[400px] bg-white rounded-xl p-4 lg:p-10 shadow-lg">
+        <Form
+          form={form}
+          className="w-full"
+          layout="vertical"
+          name="update"
+          initialValues={{
+            userName: user?.taiKhoan,
+            email: user?.email,
+            phone: user?.soDT,
+            groupCode: user?.maNhom,
+            name: user?.hoTen,
+          }}
+          onFinish={handleSubmitForm}
+          autoComplete="off"
+          onValuesChange={handleValuesChange}
+        >
+          <h1 className="text-lg mb-4">Update Profile</h1>
+          <Form.Item label="Username" name="userName">
+            <Input prefix={<UserOutlined />} disabled />
           </Form.Item>
-          <Form.Item label="Mật khẩu">
-            <Input
-              name="email"
-              placeholder="input placeholder"
-              value={user.matKhau}
-              onChange={handleInput}
-            />
+          <Form.Item label="Password" name="password">
+            <Input prefix={<UnlockOutlined />} />
           </Form.Item>
-          <Form.Item label="Họ tên">
-            <Input
-              placeholder="input placeholder"
-              value={user.hoTen}
-              onChange={handleInput}
-            />
+
+          <Form.Item
+            label="Email"
+            name="email"
+            rules={[{ required: true, message: "Please input your email!" }]}
+          >
+            <Input prefix={<FileExclamationOutlined />} />
           </Form.Item>
-          <Form.Item label="Email">
-            <Input
-              placeholder="input placeholder"
-              value={user.email}
-              onChange={handleInput}
-            />
+
+          <Form.Item
+            label="Phone number"
+            name="phone"
+            rules={[
+              {
+                required: true,
+                validator: validatePhoneNumber,
+                message: "Please input your phone number!",
+              },
+            ]}
+          >
+            <Input prefix={<PhoneOutlined />} />
           </Form.Item>
-          <Form.Item label="Số điện thoại">
-            <Input
-              placeholder="input placeholder"
-              value={user.soDT}
-              onChange={handleInput}
-            />
+
+          <Form.Item label="Group code" name="groupCode">
+            <Input prefix={<CodeOutlined />} />
+          </Form.Item>
+
+          <Form.Item label="Name" name="name">
+            <Input prefix={<UserAddOutlined />} />
+          </Form.Item>
+
+          <Form.Item>
+            <Button
+              className="bg-orange-400 hover:bg-orange-500 !border-white disabled:!text-gray-800 !text-white ml-auto"
+              htmlType="submit"
+              disabled={!isFormDirty || loading}
+              loading={loading}
+            >
+              Submit
+            </Button>
           </Form.Item>
         </Form>
       </div>
-      <div className="w-1/2"></div>
     </div>
   );
 }
-// const UpdateAdminAccount = (props) => {
-//     let navigate= useNavigate()
-//     const initialInputValues = {
-//       adminname: '',
-//       email: '',
-//     }
-//     const [values, setValues] = useState(initialInputValues)
-
-//     //show admin info before updating
-//     const {id} = useParams()
-//     useEffect(()=>{
-//      if(id){
-//          getSingleAdmin(id)
-//      }
-//     },[id])
-//     const getSingleAdmin = async (id) =>{
-//         const response = await axios.get(`/admin/${id}`);
-//         console.log("response", response)
-//         if (response.status === 200){
-//             setValues(response.data);
-//         }
-//     };
-
-//       const handleInputChange = (e) => {
-//         const name = e.target.name
-//         const value = e.target.value
-//         setValues({
-//           ...values,
-//           [name]: value,
-//         })
-//       }
-
-//       const updateAdmin = async (e, id) =>{
-//         e.preventDefault();
-//           await axios.put(`/admin/${id}`, {
-//           ...values
-//           }
-//           ).then((res) =>{
-//             console.log(res)
-//               if (res.data.message === 'UPDATED') {
-//                   alert("admin updated")
-//                   }
-//             })
-//     };
-//     return (
-//             <form method='Post'>
-//              <ul>
-//               <li>
-//                   <label>Name</label>
-//                   <input name="adminname" value={values.adminname} onChange={handleInputChange} type="text" />
-//               </li>
-//               <li>
-//                   <label>Email</label>
-//                   <input name="email" value={values.email} onChange={handleInputChange} type="email"  />
-//              </li>
-//               <li>
-//               <li>
-
-//                   <button className='submit-button' onClick={updateAdmin} type="submit" >
-//                     Update
-//                   </button> :
-
-//               </li>
-//              </ul>
-//             </form>
-//             </div>
-
-//         </div>
-//       </div>
-//     );
-// }
-
-// export default UpdateAdminAccount;

@@ -17,11 +17,9 @@ import "swiper/css/scrollbar";
 
 export default function Slider() {
   const [banner, setBanner] = useState([]);
-  console.log("🚀 ~ file: Slider.js:15 ~ Slider ~ banner:", banner);
   let fetchData = async () => {
     try {
       let response = await getDataSlider();
-      console.log("🚀 ~ file: Slider.js:18 ~ fetchData ~ response:", response);
       setBanner(response.data.content);
     } catch {
       message.error("Da co loi xay ra");
@@ -61,8 +59,6 @@ export default function Slider() {
       slidesPerView={1}
       navigation
       pagination={{ clickable: true }}
-      onSlideChange={() => console.log("slide change")}
-      onSwiper={(swiper) => console.log(swiper)}
     >
       {banner.map((item, index) => {
         return (

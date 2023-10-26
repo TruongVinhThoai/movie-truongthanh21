@@ -4,7 +4,6 @@ import { ClipLoader } from "react-spinners";
 
 export default function Spinner() {
   let { isLoading } = useSelector((state) => state.spinnerSlice);
-  console.log("🚀 ~ file: Spinner.js:8 ~ Spinner ~ isLoading:", isLoading);
   return isLoading ? (
     <div
       style={{

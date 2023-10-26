@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { getMovieByTheater } from "../../../services/Api";
 import { Tabs } from "antd";
 import moment from "moment/moment";
+import { Element } from "react-scroll";
 
 const onChange = (key) => {
   console.log(key);
@@ -40,14 +41,27 @@ export default function TabMovie() {
   let renderDsPhim = (dsPhim) => {
     return dsPhim.map((phim) => {
       return (
-        <div id="cumrap" className="flex space-x-5 p-3 items-center w-max lg:w-auto">
+        <div
+          id="cumrap"
+          key={
+            phim.id ||
+            phim.tentPhim + Math.floor(Math.random() * 1000 + 1).toString()
+          }
+          className="flex space-x-5 p-3 items-center w-max lg:w-auto"
+        >
           <img src={phim.hinhAnh} className="w-20 h-32 object-cover" alt="" />
           <div>
             <p>{phim.tenPhim}</p>
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
               {phim.lstLichChieuTheoPhim.slice(0, 7).map((lichchieu) => {
                 return (
-                  <span className="bg-red-500 text-white rounded shadow px-1 py-2">
+                  <span
+                    key={
+                      lichchieu +
+                      Math.floor(Math.random() * 1000 + 1).toString()
+                    }
+                    className="bg-red-500 text-white rounded shadow px-1 py-2"
+                  >
                     {moment(lichchieu).format("HH:MM - ll")}
                   </span>
                 );
@@ -93,7 +107,7 @@ export default function TabMovie() {
   };
 
   return (
-    <div className="container shadow-3 rounded border-2 border-l-black mx-auto">
+    <div className="container shadow-3 lg:py-12 py-8 rounded border-2 border-l-black mx-auto">
       <Tabs
         style={{ height: 500 }}
         tabPosition="left"

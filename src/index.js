@@ -8,19 +8,26 @@ import { Provider } from "react-redux";
 import userSlice from "./redux/userSlice";
 import spinnerSlice from "./redux/spinnerSlice";
 import bookingSlice from "./redux/bookingSlice";
+import messageSlice from "./redux/messageSlice";
+import ToastProvider from "./components/Message";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
-export let store = configureStore({
+export const store = configureStore({
   // rootReducer
   reducer: {
     userSlice,
     spinnerSlice,
     bookingSlice,
+    messageSlice,
   },
 });
 root.render(
   <Provider store={store}>
-    <App />
+    <React.StrictMode>
+      <ToastProvider>
+        <App />
+      </ToastProvider>
+    </React.StrictMode>
   </Provider>
 );
 

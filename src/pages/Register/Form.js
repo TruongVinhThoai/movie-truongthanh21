@@ -2,20 +2,25 @@ import React, { useEffect, useState } from "react";
 import { Button, Form, Input } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { loginUser } from "../../redux/userSlice";
-import { UnlockOutlined, UserOutlined } from "@ant-design/icons";
+import { validatePhoneNumber } from "../utils/lib";
+import { registerUser } from "../../redux/userSlice";
+import {
+  CodeOutlined,
+  MailOutlined,
+  PhoneOutlined,
+  UnlockOutlined,
+  UserAddOutlined,
+  UserOutlined,
+} from "@ant-design/icons";
 
-const FormLogin = () => {
+const FormRegister = () => {
   const dispatch = useDispatch();
   const { loading, user } = useSelector((state) => state.userSlice);
+  const [isFormDirty, setIsFormDirty] = useState(false);
   const navigate = useNavigate();
 
-  const [isFormDirty, setIsFormDirty] = useState(false);
-
   const onFinish = (values) => {
-    const { taiKhoan, matKhau } = values || {};
-    const data = { taiKhoan, matKhau };
-    dispatch(loginUser(data));
+    dispatch(registerUser(values));
   };
 
   const handleValuesChange = () => {
@@ -34,7 +39,7 @@ const FormLogin = () => {
     <Form
       className="w-full"
       layout="vertical"
-      name="login"
+      name="register"
       initialValues={{
         remember: true,
       }}
@@ -42,7 +47,7 @@ const FormLogin = () => {
       autoComplete="off"
       onValuesChange={handleValuesChange}
     >
-      <h1 className="text-lg mb-4">Login</h1>
+      <h1 className="text-lg mb-4">Sign up</h1>
       <Form.Item
         label="Username"
         name="taiKhoan"
@@ -70,10 +75,67 @@ const FormLogin = () => {
       >
         <Input.Password prefix={<UnlockOutlined />} placeholder="Password..." />
       </Form.Item>
+
+      <Form.Item
+        label="Email"
+        name="email"
+        rules={[
+          {
+            required: true,
+            message: "Please input your email!",
+          },
+        ]}
+        hasFeedback
+      >
+        <Input prefix={<MailOutlined />} placeholder="Email..." />
+      </Form.Item>
+
+      <Form.Item
+        label="Phone number"
+        name="soDt"
+        rules={[
+          {
+            required: true,
+            validator: validatePhoneNumber,
+            message: "Please input your phone number!",
+          },
+        ]}
+        hasFeedback
+      >
+        <Input prefix={<PhoneOutlined />} placeholder="Phone..." />
+      </Form.Item>
+
+      <Form.Item
+        label="Group code"
+        name="maNhom"
+        rules={[
+          {
+            required: true,
+            message: "Please input your code!",
+          },
+        ]}
+        hasFeedback
+      >
+        <Input prefix={<CodeOutlined />} placeholder="Group Code..." />
+      </Form.Item>
+
+      <Form.Item
+        label="Name"
+        name="hoTen"
+        rules={[
+          {
+            required: true,
+            message: "Please input your name!",
+          },
+        ]}
+        hasFeedback
+      >
+        <Input prefix={<UserAddOutlined />} placeholder="Name..." />
+      </Form.Item>
       <p className="pb-3">
-        Don't have an account?{" "}
-        <Link className="underline" to="/register">
-          Sign up
+        Already have an account.{" "}
+        <Link className="underline" to="/login">
+          Sign in
         </Link>
       </p>
 
@@ -91,4 +153,4 @@ const FormLogin = () => {
   );
 };
 
-export default React.memo(FormLogin);
+export default React.memo(FormRegister);
