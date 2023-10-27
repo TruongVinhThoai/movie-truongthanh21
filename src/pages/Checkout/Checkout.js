@@ -53,10 +53,10 @@ const Checkout = () => {
       /* Dung optional chaining "?" hoac viet 1 model */
     }
     return danhSachGhe.map((ghe, index) => {
-      const classGheVip = ghe.loaiGhe === "Vip" ? "gheVip" : "";
-      const classGheDaDat = ghe.daDat === true ? "gheDaDat" : "";
-      const classGheDangDat = "";
-      const classGheDaDuocDat = "";
+      let classGheVip = ghe.loaiGhe === "Vip" ? "gheVip" : "";
+      let classGheDaDat = ghe.daDat === true ? "gheDaDat" : "";
+      let classGheDangDat = "";
+      let classGheDaDuocDat = "";
 
       if (user?.taiKhoan === ghe.taiKhoanNguoiDat) {
         classGheDaDuocDat = "gheDaDuocDat";
@@ -98,149 +98,147 @@ const Checkout = () => {
 
   return (
     <div className="container mx-auto min-h-screen mt-5">
-      <div className="grid md:grid-cols-12">
-        <div className="w-full overflow-auto">
-          <table className="w-full overflow-auto">
-            <thead className="bg-gray-50 p-5">
-              <tr>
-                <th>Ghế chưa đặt</th>
-                <th>Ghế đang đặt</th>
-                <th>Ghế vip</th>
-                <th>Ghế đã đặt</th>
-                <th>Ghế mình đặt</th>
-                <th>Ghế khách đang đặt</th>
-              </tr>
-            </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
-              <tr className="text-center">
-                <td>
-                  <button className="ghe text-center">
-                    <CheckOutlined
-                      style={{ marginBottom: 7.5, fontWeight: "bold" }}
-                    />
-                  </button>
-                </td>
-                <td>
-                  <button className="ghe gheDangDat text-center">
-                    <CheckOutlined
-                      style={{ marginBottom: 7.5, fontWeight: "bold" }}
-                    />
-                  </button>
-                </td>
-                <td>
-                  <button className="ghe gheVip text-center">
-                    <CheckOutlined
-                      style={{ marginBottom: 7.5, fontWeight: "bold" }}
-                    />
-                  </button>
-                </td>
-                <td>
-                  <button className="ghe gheDaDat text-center">
-                    <CheckOutlined
-                      style={{ marginBottom: 7.5, fontWeight: "bold" }}
-                    />
-                  </button>
-                </td>
-                <td>
-                  <button className="ghe gheDaDuocDat text-center">
-                    <CheckOutlined
-                      style={{ marginBottom: 7.5, fontWeight: "bold" }}
-                    />
-                  </button>
-                </td>
-                <td>
-                  <button className="ghe gheKhachDat text-center">
-                    <CheckOutlined
-                      style={{ marginBottom: 7.5, fontWeight: "bold" }}
-                    />
-                  </button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+      <div className="w-full overflow-auto flex justify-center">
+        <table className="w-full overflow-auto">
+          <thead className="bg-gray-50 p-5">
+            <tr>
+              <th>Ghế chưa đặt</th>
+              <th>Ghế đang đặt</th>
+              <th>Ghế vip</th>
+              <th>Ghế đã đặt</th>
+              <th>Ghế mình đặt</th>
+              <th>Ghế khách đang đặt</th>
+            </tr>
+          </thead>
+          <tbody className="bg-white divide-y divide-gray-200">
+            <tr className="text-center">
+              <td>
+                <button className="ghe text-center">
+                  <CheckOutlined
+                    style={{ marginBottom: 7.5, fontWeight: "bold" }}
+                  />
+                </button>
+              </td>
+              <td>
+                <button className="ghe gheDangDat text-center">
+                  <CheckOutlined
+                    style={{ marginBottom: 7.5, fontWeight: "bold" }}
+                  />
+                </button>
+              </td>
+              <td>
+                <button className="ghe gheVip text-center">
+                  <CheckOutlined
+                    style={{ marginBottom: 7.5, fontWeight: "bold" }}
+                  />
+                </button>
+              </td>
+              <td>
+                <button className="ghe gheDaDat text-center">
+                  <CheckOutlined
+                    style={{ marginBottom: 7.5, fontWeight: "bold" }}
+                  />
+                </button>
+              </td>
+              <td>
+                <button className="ghe gheDaDuocDat text-center">
+                  <CheckOutlined
+                    style={{ marginBottom: 7.5, fontWeight: "bold" }}
+                  />
+                </button>
+              </td>
+              <td>
+                <button className="ghe gheKhachDat text-center">
+                  <CheckOutlined
+                    style={{ marginBottom: 7.5, fontWeight: "bold" }}
+                  />
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div className="md:col-span-9">
+        <div className="md:flex md:flex-col md:items-center md:justify-center mt-5 max-h-[500px] md:max-h-[unset] overflow-auto">
+          <img
+            src="https://movie-booking-project.vercel.app/img/bookticket/screen.png"
+            alt=""
+          />
+          <div className="">{renderSeats()}</div>
         </div>
-        <div className="md:col-span-9">
-          <div className="md:flex md:flex-col md:items-center md:justify-center mt-5 max-h-[500px] md:max-h-[unset] overflow-auto">
-            <img
-              src="https://movie-booking-project.vercel.app/img/bookticket/screen.png"
-              alt=""
-            />
-            <div className="">{renderSeats()}</div>
+      </div>
+      <div className="md:col-span-3 md:pb-0 pb-16">
+        <h3 className="text-green-400 text-center text-4xl">
+          {DS_GheDangDat.reduce((tongTien, ghe, index) => {
+            return (tongTien += ghe.giaVe);
+          }, 0)}
+        </h3>
+        <hr />
+        {/* Dung optional chaining "?" hoac viet 1 model */}
+        <h3 className="text-xl">{thongTinPhim.tenPhim}</h3>
+        <p>
+          Địa điểm: {thongTinPhim.tenCumRap} - {thongTinPhim.tenRap}
+        </p>
+        <p>
+          Ngày chiếu: {thongTinPhim.ngayChieu} - {thongTinPhim.gioChieu}
+        </p>
+        <hr />
+        <div className="flex flex-row my-5">
+          <div className="w-4/5">
+            <span className="text-red-500 text-lg">Ghe</span>
+            {_.sortBy(DS_GheDangDat, ["stt"]).map((gheDD, index) => {
+              return (
+                <span key={index} className="text-green-500 text-xl ml-1">
+                  [{gheDD.stt}]
+                </span>
+              );
+            })}
           </div>
-        </div>
-        <div className="md:col-span-3 md:pb-0 pb-16">
-          <h3 className="text-green-400 text-center text-4xl">
-            {DS_GheDangDat.reduce((tongTien, ghe, index) => {
-              return (tongTien += ghe.giaVe);
-            }, 0)}
-          </h3>
-          <hr />
-          {/* Dung optional chaining "?" hoac viet 1 model */}
-          <h3 className="text-xl">{thongTinPhim.tenPhim}</h3>
-          <p>
-            Địa điểm: {thongTinPhim.tenCumRap} - {thongTinPhim.tenRap}
-          </p>
-          <p>
-            Ngày chiếu: {thongTinPhim.ngayChieu} - {thongTinPhim.gioChieu}
-          </p>
-          <hr />
-          <div className="flex flex-row my-5">
-            <div className="w-4/5">
-              <span className="text-red-500 text-lg">Ghe</span>
-              {_.sortBy(DS_GheDangDat, ["stt"]).map((gheDD, index) => {
-                return (
-                  <span key={index} className="text-green-500 text-xl ml-1">
-                    [{gheDD.stt}]
-                  </span>
-                );
-              })}
-            </div>
-            {/* <div className="text-right text-green-700 text-lg">
+          {/* <div className="text-right text-green-700 text-lg">
               
             </div> */}
-          </div>
-          <hr />
-          <div className="my-5">
-            <i>Email</i>
-            <br />
-            {user?.email}
-          </div>
-          <hr />
-          <div className="my-5">
-            <i>Phone</i>
-            <br />
-            {user?.soDT}
-          </div>
-          <hr />
-          <div className="-mb-5 md:static fixed bottom-9 left-4 right-4">
-            <div
-              onClick={() => {
-                const thongTinDatVe = new ThongTinDatVe();
-                thongTinDatVe.maLichChieu = params.id;
-                thongTinDatVe.danhSachVe = DS_GheDangDat;
-                getDetailBooking
-                  .setBooking(thongTinDatVe)
-                  .then((res) => {
-                    message.success("Dat ve thanh cong");
-                    dispatch(postBooking(res.data.content));
-                  })
-                  .catch((err) => {
-                    throw err;
-                  });
-                getDetailBooking
-                  .getDetail(params.id)
-                  .then((res) => {
-                    dispatch(setDetailBooking(res.data.content));
-                  })
-                  .catch((err) => {
-                    throw err;
-                  });
-                dispatch(setTab("2"));
-              }}
-              className="bg-green-600 text-white text-center w-full py-3 font-bold text-2xl cursor-pointer"
-            >
-              Book
-            </div>
+        </div>
+        <hr />
+        <div className="my-5">
+          <i>Email</i>
+          <br />
+          {user?.email}
+        </div>
+        <hr />
+        <div className="my-5">
+          <i>Phone</i>
+          <br />
+          {user?.soDT}
+        </div>
+        <hr />
+        <div className="-mb-5 md:static fixed bottom-9 left-4 right-4">
+          <div
+            onClick={() => {
+              const thongTinDatVe = new ThongTinDatVe();
+              thongTinDatVe.maLichChieu = params.id;
+              thongTinDatVe.danhSachVe = DS_GheDangDat;
+              getDetailBooking
+                .setBooking(thongTinDatVe)
+                .then((res) => {
+                  message.success("Dat ve thanh cong");
+                  dispatch(postBooking(res.data.content));
+                })
+                .catch((err) => {
+                  throw err;
+                });
+              getDetailBooking
+                .getDetail(params.id)
+                .then((res) => {
+                  dispatch(setDetailBooking(res.data.content));
+                })
+                .catch((err) => {
+                  throw err;
+                });
+              dispatch(setTab("2"));
+            }}
+            className="bg-green-600 text-white text-center w-full py-3 font-bold text-2xl cursor-pointer"
+          >
+            Book
           </div>
         </div>
       </div>

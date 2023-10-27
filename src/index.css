@@ -83,7 +83,6 @@
   z-index: 100;
   top: 0;
   width: 90%;
-  background-color: #4a4a4a;
   font-size: 14px;
   font-weight: 400;
   text-transform: capitalize;
@@ -96,9 +95,6 @@
   color: white;
 }
 
-.wrn-btn:hover {
-  background-color: #3f3e3e;
-}
 .ant-select-selector {
   border: none !important;
   outline: none !important;

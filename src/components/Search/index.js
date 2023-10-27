@@ -1,5 +1,5 @@
 import { Button } from "antd";
-import React, { memo, useEffect } from "react";
+import React, { memo, useEffect, useState } from "react";
 import SelectCustom from "../Select";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -10,26 +10,42 @@ import {
   setShowtimeDate,
   setTheaterId,
 } from "../../redux/searchSlice";
+import { Link } from "react-router-dom";
 
 const SearchSection = () => {
   const dispatch = useDispatch();
-  const { movieList, loading, showtimeData, movie, showtime } = useSelector(
+  const { movieList, showtimeData, movie } = useSelector(
     (state) => state.searchSlice
   );
 
+  const [selectedMovie, setSelectedMovie] = useState(null);
+  const [selectedTheater, setSelectedTheater] = useState(null);
+  const [selectedShowtimeDate, setSelectedShowtimeDate] = useState(null);
+  const [selectedShowtime, setSelectedShowtime] = useState(null);
+
   const handleSelectMovie = (selectedValue) => {
-    dispatch(setMovie(selectedValue.value))
+    setSelectedMovie(selectedValue.value);
+    setSelectedTheater(null);
+    setSelectedShowtimeDate(null);
+    setSelectedShowtime(null);
+    dispatch(setMovie(selectedValue.value));
   };
 
   const handleSelectTheater = (selectedOption) => {
+    setSelectedTheater(selectedOption.value);
+    setSelectedShowtimeDate(null);
+    setSelectedShowtime(null);
     dispatch(setTheaterId(selectedOption.value));
   };
 
   const handleSelectShowtimeDate = (selectedOption) => {
+    setSelectedShowtimeDate(selectedOption.value);
+    setSelectedShowtime(null);
     dispatch(setShowtimeDate(selectedOption.value));
   };
 
   const handleSelectShowtime = (selectedOption) => {
+    setSelectedShowtime(selectedOption.value);
     dispatch(setShowtime(selectedOption.value));
   };
 
@@ -43,9 +59,7 @@ const SearchSection = () => {
     }
   }, [dispatch, movie]);
 
-  if (loading === "loading") {
-    return <div>Loading...</div>;
-  }
+  const isMovieSelected = Boolean(selectedMovie);
 
   return (
     <section className="search-sec">
@@ -69,6 +83,7 @@ const SearchSection = () => {
                 onSelect={handleSelectTheater}
                 isTheaterSelect
                 placeholder="Rạp"
+                disabled={!isMovieSelected}
               />
             </div>
             <div className="w-full sm:w-1/2 md:w-1/4 lg:w-1/6 p-2">
@@ -78,6 +93,7 @@ const SearchSection = () => {
                 onSelect={handleSelectShowtimeDate}
                 isShowTimeSelect
                 placeholder="Ngày xem"
+                disabled={!isMovieSelected || !selectedTheater}
               />
             </div>
             <div className="w-full sm:w-1/2 md:w-1/4 lg:w-1/6 p-2">
@@ -86,11 +102,23 @@ const SearchSection = () => {
                 placeholder="Suất chiếu"
                 data={showtimeData?.heThongRapChieu}
                 onSelect={handleSelectShowtime}
+                disabled={
+                  !isMovieSelected || !selectedTheater || !selectedShowtimeDate
+                }
               />
             </div>
             <div className="w-full sm:w-full md:w-1/4 lg:w-1/6 p-2">
-              <Button type="button" className="wrn-btn">
-                Mua Ve Ngay
+              <Button
+                type="button"
+                className="wrn-btn hover:bg-orange-500 bg-orange-500 transition disabled:bg-slate-700 "
+                disabled={
+                  !isMovieSelected ||
+                  !selectedTheater ||
+                  !selectedShowtimeDate ||
+                  !selectedShowtime
+                }
+              >
+                <Link to={`/checkout/${selectedShowtime}`}>Mua Ve Ngay</Link>
               </Button>
             </div>
           </div>

@@ -3,6 +3,7 @@ import { NavLink, useParams } from "react-router-dom";
 import { getDetailMovie, getInfoMovie } from "../../services/Api";
 import { Progress, Tabs } from "antd";
 import moment from "moment/moment";
+import { formattedDate } from "../utils/lib";
 
 const onChange = (key) => {};
 
@@ -37,12 +38,9 @@ export default function DetailMovie() {
     return dsPhim.map((phim) => {
       return (
         <div key={phim.maLichChieu} className="flex space-x-5 p-3 items-center">
-          {/* <img src={phim.hinhAnh} className="w-20 h-32 object-cover" alt="" /> */}
           <div>
             <p>{phim.tenRap}</p>
             <div className="grid grid-cols-4 gap-3">
-              {/* {phim.lstLichChieuTheoPhim.slice(0, 7).map((lichchieu) => { */}
-              {/* // return ( */}
               <NavLink to={`/checkout/${phim.maLichChieu}`}>
                 <span className="bg-red-500 text-white rounded shadow px-1 py-2">
                   {moment(phim.ngayChieuGioChieu).format("HH:MM - ll")}
@@ -50,8 +48,6 @@ export default function DetailMovie() {
               </NavLink>
 
               <span>Thời lượng: {phim.thoiLuong} phút</span>
-              {/* ); */}
-              {/* })} */}
             </div>
           </div>
         </div>
@@ -164,7 +160,7 @@ export default function DetailMovie() {
             />
           </div>
           <div className="px-3 md:text-lg text-sm">
-            <p>{detail.ngayKhoiChieu}</p>
+            <p>{formattedDate(detail.ngayKhoiChieu)}</p>
             <p>{detail.tenPhim}</p>
             <p>{detail.moTa}</p>
             <button className="bg-transparent transition hover:bg-orange-500 font-semibold hover:text-white py-2 px-4 border border-orange-500 hover:border-transparent rounded">
