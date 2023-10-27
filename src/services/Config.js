@@ -13,12 +13,12 @@ export const configHeaders = () => {
   };
 };
 export const BASE_URL = "https://movienew.cybersoft.edu.vn/api";
-export const GOURGID = "GP12";
+export const GROUPID = "GP12";
 
 // axios instance
 export const https = axios.create({
   baseURL: BASE_URL,
-  timeout: 100,
+  timeout: 5000,
   headers: {
     TokenCybersoft: TOKEN_CYBER,
   },

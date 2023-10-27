@@ -52,3 +52,54 @@
 .ant-drawer {
   z-index: 9999 !important;
 }
+.search-sec form {
+  padding: 1rem;
+  background-color: white;
+  position: relative;
+  z-index: 100;
+  top: -2.7rem;
+  box-shadow: 1px 1px 2px 1px #aaaaaa;
+  border: none;
+  border-radius: 6px;
+}
+
+.search-slt {
+  width: 90%;
+  position: relative;
+  z-index: 100;
+  top: 0;
+  font-size: 0.875rem;
+  color: #55595c;
+  border: 1px solid #ccc;
+  height: calc(3rem + 2px) !important;
+  border: none;
+  border-radius: 6px;
+  margin-left: 10px;
+  outline: none;
+}
+
+.wrn-btn {
+  position: relative;
+  z-index: 100;
+  top: 0;
+  width: 90%;
+  background-color: #4a4a4a;
+  font-size: 14px;
+  font-weight: 400;
+  text-transform: capitalize;
+  height: calc(3rem + 2px) !important;
+  border: none;
+  border-radius: 6px;
+  margin-left: 10px;
+  text-transform: uppercase;
+  outline: none;
+  color: white;
+}
+
+.wrn-btn:hover {
+  background-color: #3f3e3e;
+}
+.ant-select-selector {
+  border: none !important;
+  outline: none !important;
+}

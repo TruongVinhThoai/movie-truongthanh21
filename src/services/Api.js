@@ -1,5 +1,5 @@
 import axios from "axios";
-import { BASE_URL, GOURGID, configHeaders, https } from "./Config";
+import { BASE_URL, GROUPID, configHeaders, https } from "./Config";
 import { ThongTinDatVe } from "../_core/model/ThongTinDatVe";
 
 export let getDataSlider = () => {
@@ -12,7 +12,7 @@ export let getDataSlider = () => {
 
 export let getListMovie = () => {
   return axios({
-    url: `${BASE_URL}/QuanLyPhim/LayDanhSachPhim?maNhom=${GOURGID}`,
+    url: `${BASE_URL}/QuanLyPhim/LayDanhSachPhim?maNhom=${GROUPID}`,
     method: "GET",
     headers: configHeaders(),
   });
@@ -20,7 +20,7 @@ export let getListMovie = () => {
 
 export let getMovieByTheater = () => {
   return axios({
-    url: `${BASE_URL}/QuanLyRap/LayThongTinLichChieuHeThongRap?maNhom=${GOURGID}`,
+    url: `${BASE_URL}/QuanLyRap/LayThongTinLichChieuHeThongRap?maNhom=${GROUPID}`,
     method: "GET",
     headers: configHeaders(),
   });

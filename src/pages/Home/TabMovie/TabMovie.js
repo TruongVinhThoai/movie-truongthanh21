@@ -30,7 +30,7 @@ export default function TabMovie() {
   useEffect(() => {
     getMovieByTheater()
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         setDS_HeThongRap(res.data.content);
       })
       .catch((err) => {
@@ -41,7 +41,8 @@ export default function TabMovie() {
   let renderDsPhim = (dsPhim) => {
     return dsPhim.map((phim) => {
       return (
-        <div
+        <Element
+          name="cumrap"
           id="cumrap"
           key={
             phim.id ||
@@ -68,7 +69,7 @@ export default function TabMovie() {
               })}
             </div>
           </div>
-        </div>
+        </Element>
       );
     });
   };
