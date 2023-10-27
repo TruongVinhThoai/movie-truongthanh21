@@ -9,6 +9,7 @@ import userSlice from "./redux/userSlice";
 import spinnerSlice from "./redux/spinnerSlice";
 import bookingSlice from "./redux/bookingSlice";
 import messageSlice from "./redux/messageSlice";
+import searchSlice from "./redux/searchSlice";
 import ToastProvider from "./components/Message";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
@@ -19,6 +20,7 @@ export const store = configureStore({
     spinnerSlice,
     bookingSlice,
     messageSlice,
+    searchSlice,
   },
 });
 root.render(
