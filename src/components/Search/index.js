@@ -10,7 +10,7 @@ import {
   setShowtimeDate,
   setTheaterId,
 } from "../../redux/searchSlice";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const SearchSection = () => {
   const dispatch = useDispatch();
@@ -18,6 +18,7 @@ const SearchSection = () => {
     (state) => state.searchSlice
   );
 
+  const navigate = useNavigate();
   const [selectedMovie, setSelectedMovie] = useState(null);
   const [selectedTheater, setSelectedTheater] = useState(null);
   const [selectedShowtimeDate, setSelectedShowtimeDate] = useState(null);
@@ -47,6 +48,10 @@ const SearchSection = () => {
   const handleSelectShowtime = (selectedOption) => {
     setSelectedShowtime(selectedOption.value);
     dispatch(setShowtime(selectedOption.value));
+  };
+
+  const handleGoToCheckout = () => {
+    navigate(`/checkout/${selectedShowtime}`);
   };
 
   useEffect(() => {
@@ -109,6 +114,7 @@ const SearchSection = () => {
             </div>
             <div className="w-full sm:w-full md:w-1/4 lg:w-1/6 p-2">
               <Button
+                onClick={handleGoToCheckout}
                 type="button"
                 className="wrn-btn hover:bg-orange-500 bg-orange-500 transition disabled:bg-slate-700 "
                 disabled={
@@ -118,7 +124,7 @@ const SearchSection = () => {
                   !selectedShowtime
                 }
               >
-                <Link to={`/checkout/${selectedShowtime}`}>Mua Ve Ngay</Link>
+                Mua Ve Ngay
               </Button>
             </div>
           </div>
