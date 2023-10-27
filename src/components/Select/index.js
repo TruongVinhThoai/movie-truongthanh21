@@ -13,9 +13,10 @@ const SelectCustom = ({
   isMovieSelect,
   isTheaterSelect,
   isShowTimeSelect,
+  disabled,
 }) => {
   const [options, setOptions] = useState([]);
-  const selectedTheater = useSelector((state) => state.searchSlice.theaterId)
+  const selectedTheater = useSelector((state) => state.searchSlice.theaterId);
 
   useEffect(() => {
     if (isMovieSelect) {
@@ -25,7 +26,7 @@ const SelectCustom = ({
     } else if (isShowTimeSelect) {
       setOptions(mapShowtimeOptions(data, selectedTheater));
     } else {
-      setOptions(mapShowtimeDetailOptions(data, selectedTheater))
+      setOptions(mapShowtimeDetailOptions(data, selectedTheater));
     }
   }, [data, isMovieSelect, isTheaterSelect, isShowTimeSelect, selectedTheater]);
 
@@ -73,7 +74,8 @@ const SelectCustom = ({
           options.push(
             ...data?.lichChieuPhim?.map((data) => ({
               value: data?.maLichChieu,
-              label: data?.tenRap + " - " + formattedTime(data?.ngayChieuGioChieu),
+              label:
+                data?.tenRap + " - " + formattedTime(data?.ngayChieuGioChieu),
             }))
           );
         }
@@ -89,6 +91,7 @@ const SelectCustom = ({
         className={className}
         showSearch={isShowSearch}
         placeholder={placeholder || "Search movie"}
+        disabled={disabled}
       />
     );
   }
@@ -96,6 +99,7 @@ const SelectCustom = ({
   return (
     <Select
       className={className}
+      disabled={disabled}
       showSearch={isShowSearch}
       placeholder={placeholder || "Search to Select"}
       optionFilterProp="label"

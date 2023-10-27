@@ -38,7 +38,7 @@ const MenuItem = ({ to, label, onClick, onClose }) => {
         smooth={true}
         offset={-110}
         duration={300}
-        className="flex items-center text-white cursor-pointer px-4 -mb-1 border-b-2 hover:text-violet-400 dark:border-transparent active:text-violet-400 focus:border-b-2 focus:text-violet-400 focus:border-violet-400"
+        className="flex items-center text-white cursor-pointer px-4 -mb-1 border-b-2 hover:text-violet-400 border-transparent active:text-violet-400 focus:border-b-2 focus:text-violet-400 focus:border-violet-400"
         activeClass="!text-violet-400"
         onClick={handleClick}
       >

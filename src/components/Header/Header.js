@@ -22,7 +22,7 @@ export default function Header() {
   const handleLogIn = () => navigation("/login");
 
   return (
-    <header className="p-4 dark:bg-gray-800 dark:text-gray-100 sticky top-0 z-[9999]">
+    <header className="p-4 bg-gray-800 text-gray-100 sticky top-0 z-[9999]">
       {isOpenMenuMobile && (
         <MenuMobile
           setOpen={setOpenMenuMobile}
@@ -55,7 +55,7 @@ export default function Header() {
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
-            className="w-6 h-6 dark:text-gray-100"
+            className="w-6 h-6 text-gray-100"
           >
             <path
               strokeLinecap="round"
