@@ -30,8 +30,8 @@ export const USER_LOGIN = "USER_LOGIN";
 // Add a request interceptor
 https.interceptors.request.use(
   function (config) {
-    store.dispatch(setLoadingON());
-    console.log("API di");
+    // store.dispatch(setLoadingON());
+    // console.log("API di");
 
     // Add Authorization header if access token exists in local storage
     const accessToken = userLocalStorage.get()?.accessToken;
@@ -50,12 +50,12 @@ https.interceptors.request.use(
 // Add a response interceptor
 https.interceptors.response.use(
   function (response) {
-    store.dispatch(setLoadingOFF());
-    console.log("API ve");
+    // store.dispatch(setLoadingOFF());
+    // console.log("API ve");
     return response;
   },
   function (error) {
-    store.dispatch(setLoadingOFF());
+    // store.dispatch(setLoadingOFF());
 
     if (error.response && error.response.status === 401) {
       // Token expired or unauthorized, redirect to login page
