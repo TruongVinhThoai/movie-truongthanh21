@@ -18,7 +18,7 @@ export const GROUPID = "GP12";
 // axios instance
 export const https = axios.create({
   baseURL: BASE_URL,
-  timeout: 5000,
+  timeout: 10000,
   headers: {
     TokenCybersoft: TOKEN_CYBER,
   },

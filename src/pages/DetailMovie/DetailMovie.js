@@ -184,7 +184,7 @@ export default function DetailMovie() {
           </div>
         </div>
       </div>
-      <div className="container shadow-3 rounded border-2 border-l-black">
+      <div className="container shadow-3 rounded border-2 border-l-black mx-auto mt-8 md:mt-12">
         <Tabs
           defaultActiveKey="1"
           items={items}
