@@ -16,15 +16,21 @@ const bookingSlice = createSlice({
     },
     setBooking: (state, { payload }) => {
       // Cap nhat danh sach ghe dang dat
-      let DS_GheCapNhat = state.DS_GheDangDat;
-      let index = DS_GheCapNhat.findIndex((gheDD) => gheDD === payload.maGhe);
+      let DS_GheCapNhat = [...state.DS_GheDangDat];
+      let index = DS_GheCapNhat.findIndex((gheDD) => gheDD.maGhe === payload.maGhe);
+
       if (index !== -1) {
         // Neu tim thay ghe duoc chon trong mang co nghia la truoc do da co click vao r => xoa
         DS_GheCapNhat.splice(index, 1);
       } else {
         DS_GheCapNhat.push(payload);
       }
+
+      // Cap nhat giaVe
+      let giaVe = DS_GheCapNhat.reduce((total, ghe) => total + ghe.giaVe, 0);
+
       state.DS_GheDangDat = DS_GheCapNhat;
+      state.detailBooking.giaVe = giaVe;
     },
     postBooking: (state, { payload }) => {
       state.DS_GheDangDat = [];

@@ -214,29 +214,38 @@ const Checkout = () => {
         <div className="-mb-5 md:static fixed bottom-9 left-4 right-4">
           <div
             onClick={() => {
-              const thongTinDatVe = new ThongTinDatVe();
-              thongTinDatVe.maLichChieu = params.id;
-              thongTinDatVe.danhSachVe = DS_GheDangDat;
-              getDetailBooking
-                .setBooking(thongTinDatVe)
-                .then((res) => {
-                  message.success("Dat ve thanh cong");
-                  dispatch(postBooking(res.data.content));
-                })
-                .catch((err) => {
-                  throw err;
-                });
-              getDetailBooking
-                .getDetail(params.id)
-                .then((res) => {
-                  dispatch(setDetailBooking(res.data.content));
-                })
-                .catch((err) => {
-                  throw err;
-                });
-              dispatch(setTab("2"));
+              if (DS_GheDangDat.length > 0) {
+                const thongTinDatVe = new ThongTinDatVe();
+                thongTinDatVe.maLichChieu = params.id;
+                thongTinDatVe.danhSachVe = DS_GheDangDat;
+
+                getDetailBooking
+                  .setBooking(thongTinDatVe)
+                  .then((res) => {
+                    message.success("Dat ve thanh cong");
+                    dispatch(postBooking(res.data.content));
+                  })
+                  .catch((err) => {
+                    throw err;
+                  });
+
+                getDetailBooking
+                  .getDetail(params.id)
+                  .then((res) => {
+                    dispatch(setDetailBooking(res.data.content));
+                  })
+                  .catch((err) => {
+                    throw err;
+                  });
+
+                dispatch(setTab("2"));
+              } else {
+                message.error("Vui lòng chọn ít nhất một ghế");
+              }
             }}
-            className="bg-green-600 text-white text-center w-full py-3 font-bold text-2xl cursor-pointer"
+            className={`${
+              DS_GheDangDat.length > 0 ? "bg-green-600" : "bg-gray-400"
+            } text-white text-center w-full py-3 font-bold text-2xl cursor-pointer`}
           >
             Book
           </div>
