@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { getListMovie } from "../../../services/Api";
+import { movieServ } from "../../../services/Api";
 import { SwiperSlide, Swiper } from "swiper/react";
 import "swiper/css";
 import "swiper/css/grid";
@@ -11,7 +11,8 @@ import { Element } from "react-scroll";
 export default function ListMovie() {
   const [movieArr, setMovieArr] = useState([]);
   useEffect(() => {
-    getListMovie()
+    movieServ
+      .getListMovie()
       .then((res) => {
         setMovieArr(res.data.content);
       })
@@ -26,13 +27,6 @@ export default function ListMovie() {
       className="text-gray-600 body-font"
     >
       <div className="container px-5 lg:py-12 py-8 mx-auto">
-        <div>
-          <button className="mr-5" onClick={() => {}}>
-            Sap chieu
-          </button>
-          <button>Dang chieu</button>
-        </div>
-
         <Swiper
           slidesPerView={3}
           grid={{
@@ -131,7 +125,7 @@ export default function ListMovie() {
                     <div className="absolute h-full w-full bg-black/75 flex items-center justify-center scale-0 left-0 bottom-0 right-0 z-[1] opacity-0 group-hover:opacity-100 group-hover:scale-100 transition-all duration-500 rounded-lg border-solid border-2 border-orange-500">
                       <div className="absolute -translate-y-1/2 top-1/2 text-center transition-all w-[60%] md:w-[80%]">
                         <NavLink to={`/movie/${item.maPhim}`}>
-                          <button className="text-white py-6 uppercase text-lg md:text-xl w-full rounded bg-red-400">
+                          <button className="hover:text-white text-orange-500 bg-transparent transition border border-orange-500 py-6 uppercase text-lg md:text-xl w-full rounded hover:bg-orange-500">
                             Book Now
                           </button>
                         </NavLink>
@@ -145,60 +139,5 @@ export default function ListMovie() {
         </Swiper>
       </div>
     </Element>
-
-    // <div className="container my-28 mx-auto">
-    //   <Swiper
-    //     slidesPerView={3}
-    //     grid={{
-    //       rows: 2,
-    //       fill: "row",
-    //     }}
-    //     spaceBetween={10}
-    //     pagination={{
-    //       clickable: true,
-    //     }}
-    //     modules={[Grid, Pagination]}
-    //   >
-    //     {movieArr.map((item, index) => {
-    //       return (
-    //         <SwiperSlide>
-    //           <Card
-    //             hoverable
-    //             style={
-    //               {
-    //                 // width: 240,
-    //               }
-    //             }
-    //             cover={
-    //               <img
-    //                 className="h-48 object-cover"
-    //                 alt="example"
-    //                 src={item.hinhAnh}
-    //               />
-    //             }
-    //           >
-    //             {/* <Meta
-    //               title="Europe Street beat"
-    //               description="www.instagram.com"
-    //             />
-    //             <button className="px-20 py-5 rounded bg-red-400">
-    //               <NavLink to={`/movie/${item.maPhim}`} className="text-white">
-    //                 Mua ve
-    //               </NavLink>
-    //             </button> */}
-    //           </Card>
-    //         </SwiperSlide>
-    //       );
-    //     })}
-    //     {/* <SwiperSlide>Slide 2</SwiperSlide>
-    //     <SwiperSlide>Slide 3</SwiperSlide>
-    //     <SwiperSlide>Slide 4</SwiperSlide>
-    //     <SwiperSlide>Slide 5</SwiperSlide>
-    //     <SwiperSlide>Slide 6</SwiperSlide>
-    //     <SwiperSlide>Slide 7</SwiperSlide>
-    //     <SwiperSlide>Slide 8</SwiperSlide>
-    //     <SwiperSlide>Slide 9</SwiperSlide> */}
-    //   </Swiper>
-    // </div>
   );
 }

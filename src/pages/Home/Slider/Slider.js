@@ -1,6 +1,6 @@
 import { message } from "antd";
 import React, { useEffect, useState } from "react";
-import { getDataSlider } from "../../../services/Api";
+import { movieServ } from "../../../services/Api";
 import "swiper/css";
 import { Swiper, SwiperSlide } from "swiper/react";
 import {
@@ -21,7 +21,7 @@ export default function Slider() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        let response = await getDataSlider();
+        let response = await movieServ.getDataSlider();
         setBanner(response.data.content);
       } catch {
         message.error("Da co loi xay ra");

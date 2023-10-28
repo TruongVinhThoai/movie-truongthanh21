@@ -1,16 +1,17 @@
 import React from "react";
 import { useEffect, useState } from "react";
-import { getMovieByTheater } from "../../services/Api";
+import { movieServ } from "../../services/Api";
 
 export default function Footer() {
   const [DS_Logo, setDS_Logo] = useState([]);
   useEffect(() => {
-    getMovieByTheater()
+    movieServ
+      .getMovieByTheater()
       .then((res) => {
         setDS_Logo(res.data.content);
       })
       .catch((err) => {
-        throw err
+        throw err;
       });
   }, []);
 

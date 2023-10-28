@@ -16,10 +16,6 @@ const SECTION_IDS = [
     id: "tintuc",
   },
   {
-    name: "Liên Hệ",
-    id: "lienhe",
-  },
-  {
     name: "Ứng Dụng",
     id: "ungdung",
   },

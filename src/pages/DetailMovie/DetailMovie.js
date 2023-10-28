@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { NavLink, useParams } from "react-router-dom";
-import { getDetailMovie, getInfoMovie } from "../../services/Api";
+import { movieServ } from "../../services/Api";
 import { Progress, Tabs } from "antd";
 import moment from "moment/moment";
 import { formattedDate } from "../utils/lib";
@@ -8,12 +8,18 @@ import { formattedDate } from "../utils/lib";
 const onChange = (key) => {};
 
 export default function DetailMovie() {
+  const ref = useRef(null);
+
+  const handleClick = () => {
+    ref.current?.scrollIntoView({ behavior: "smooth" });
+  };
   // useParams =>lay id tu url
   const params = useParams();
   const [detail, setDetail] = useState({});
   useEffect(() => {
-    //Goi api lay chi tiet phim dua tren id
-    getDetailMovie(params.id)
+    movieServ
+      //Goi api lay chi tiet phim dua tren id
+      .getDetailMovie(params.id)
       .then((res) => {
         setDetail(res.data.content);
       })
@@ -24,7 +30,8 @@ export default function DetailMovie() {
   const [DS_HeThongRapMovie, setDS_HeThongRapMovie] = useState([]);
 
   useEffect(() => {
-    getInfoMovie(params.id)
+    movieServ
+      .getInfoMovie(params.id)
       .then((res) => {
         console.log(res);
         setDS_HeThongRapMovie(res.data.content.heThongRapChieu);
@@ -103,7 +110,7 @@ export default function DetailMovie() {
   const items = [
     {
       key: "1",
-      label: "Tab 1",
+      label: "Lịch Chiếu",
       children: (
         <Tabs
           style={{ height: 500 }}
@@ -116,32 +123,16 @@ export default function DetailMovie() {
     },
     {
       key: "2",
-      label: "Tab 2",
-      children: "Content of Tab Pane 2",
+      label: "Thông Tin ",
+      children: "...",
     },
     {
       key: "3",
-      label: "Tab 3",
-      children: "Content of Tab Pane 3",
+      label: "Đánh Giá",
+      children: "...",
     },
   ];
   return (
-    // <div className="container flex justify-between items-center">
-    // <img className="w-1/3 aspect-square" src={detail.hinhAnh} alt="" />
-    //   <Progress
-    //     size={350}
-    //     format={(value) => (
-    //       <span className="text-red-500 font-medium animate-pulse block">
-    //         {value / 10} Diem
-    //       </span>
-    //     )}
-    //     strokeColor={"red"}
-    //     strokeWidth={20}
-    //     className="animate-bounce"
-    //     type="circle"
-    //     percent={detail.danhGia * 10}
-    //   />
-    // </div>
     <div>
       <div className="relative w-full h-[500px]">
         <div className="top-0 left-0 right-0 bottom-0 absolute bg-gradient-to-t"></div>
@@ -163,7 +154,10 @@ export default function DetailMovie() {
             <p>{formattedDate(detail.ngayKhoiChieu)}</p>
             <p>{detail.tenPhim}</p>
             <p>{detail.moTa}</p>
-            <button className="bg-transparent transition hover:bg-orange-500 font-semibold hover:text-white py-2 px-4 border border-orange-500 hover:border-transparent rounded">
+            <button
+              onClick={handleClick}
+              className="bg-transparent transition hover:bg-orange-500 font-semibold hover:text-white py-2 px-4 border border-orange-500 hover:border-transparent rounded"
+            >
               Book
             </button>
           </div>
@@ -184,7 +178,10 @@ export default function DetailMovie() {
           </div>
         </div>
       </div>
-      <div className="container shadow-3 rounded border-2 border-l-black mx-auto mt-8 md:mt-12">
+      <div
+        ref={ref}
+        className="container shadow-3 rounded border-2 border-l-black mx-auto mt-8 md:mt-12"
+      >
         <Tabs
           defaultActiveKey="1"
           items={items}

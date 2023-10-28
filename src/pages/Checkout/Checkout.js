@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getDetailBooking, userServ } from "../../services/Api";
+import { movieServ, userServ } from "../../services/Api";
 import { NavLink, useNavigate, useParams } from "react-router-dom";
 import {
   setDetailBooking,
@@ -31,7 +31,7 @@ const Checkout = () => {
 
   useEffect(() => {
     if (user?.accessToken) {
-      getDetailBooking
+      movieServ
         .getDetail(params.id)
         .then((res) => {
           dispatch(setDetailBooking(res.data.content));
@@ -219,7 +219,7 @@ const Checkout = () => {
                 thongTinDatVe.maLichChieu = params.id;
                 thongTinDatVe.danhSachVe = DS_GheDangDat;
 
-                getDetailBooking
+                movieServ
                   .setBooking(thongTinDatVe)
                   .then((res) => {
                     message.success("Dat ve thanh cong");
@@ -229,7 +229,7 @@ const Checkout = () => {
                     throw err;
                   });
 
-                getDetailBooking
+                movieServ
                   .getDetail(params.id)
                   .then((res) => {
                     dispatch(setDetailBooking(res.data.content));
@@ -374,23 +374,12 @@ export default function Demo() {
               }}
               className="text-2xl ml-5 rounded-full bg-red-200"
             >
-              <NavLink to={`/profile/${user?.taiKhoan}`}>
+              <NavLink to={`/profile/${user?.hoTen}`}>
                 {user?.taiKhoan.substr(0, 1)}
               </NavLink>
             </div>
             {user?.taiKhoan}
           </button>
-          {/* <button
-            onClick={() => {
-              localStorage.removeItem(USER_LOGIN);
-              localStorage.removeItem(TOKEN);
-              history.push("/home");
-              window.location.reload();
-            }}
-            className="text-blue-800"
-          >
-            Đăng xuất
-          </button>{" "} */}
         </Fragment>
       ) : (
         ""

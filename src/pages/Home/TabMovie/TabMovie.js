@@ -1,34 +1,19 @@
 import React, { useEffect, useState } from "react";
-import { getMovieByTheater } from "../../../services/Api";
+import { movieServ } from "../../../services/Api";
 import { Tabs } from "antd";
 import moment from "moment/moment";
 import { Element } from "react-scroll";
+import { NavLink } from "react-router-dom";
 
 const onChange = (key) => {
   console.log(key);
 };
-// const items = [
-//   {
-//     key: "1",
-//     label: "Tab 1",
-//     children: "Content of Tab Pane 1",
-//   },
-//   {
-//     key: "2",
-//     label: "Tab 2",
-//     children: "Content of Tab Pane 2",
-//   },
-//   {
-//     key: "3",
-//     label: "Tab 3",
-//     children: "Content of Tab Pane 3",
-//   },
-// ];
 
 export default function TabMovie() {
   const [DS_HeThongRap, setDS_HeThongRap] = useState([]);
   useEffect(() => {
-    getMovieByTheater()
+    movieServ
+      .getMovieByTheater()
       .then((res) => {
         // console.log(res);
         setDS_HeThongRap(res.data.content);
@@ -56,15 +41,19 @@ export default function TabMovie() {
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
               {phim.lstLichChieuTheoPhim.slice(0, 7).map((lichchieu) => {
                 return (
-                  <span
-                    key={
-                      lichchieu +
-                      Math.floor(Math.random() * 1000 + 1).toString()
-                    }
+                  <NavLink
+                    to={`/checkout/${lichchieu.maLichChieu}`}
                     className="bg-red-500 text-white rounded shadow px-1 py-2"
                   >
-                    {moment(lichchieu).format("HH:MM - ll")}
-                  </span>
+                    <span
+                      key={
+                        lichchieu +
+                        Math.floor(Math.random() * 1000 + 1).toString()
+                      }
+                    >
+                      {moment(lichchieu).format("HH:MM - ll")}
+                    </span>
+                  </NavLink>
                 );
               })}
             </div>
